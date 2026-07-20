@@ -1,12 +1,7 @@
-import { TAB_ICON } from '../lib/tabs.js'
+import { motion } from 'framer-motion'
+import { CAT_META } from '../lib/icons.js'
 
-const TAB_BG = {
-  universidades: { background: 'rgba(59,130,246,.14)', color: '#1d4ed8' },
-  pesquisadores: { background: 'rgba(16,185,129,.14)', color: '#0a6b4f' },
-  fertilizantes: { background: 'rgba(16,185,129,.14)', color: '#0a6b4f' },
-  redes: { background: 'rgba(124,58,237,.14)', color: '#6d28d9' },
-  empresas: { background: 'rgba(224,164,74,.16)', color: '#a96f15' },
-}
+const ease = [0.22, 1, 0.36, 1]
 
 export default function FeaturedList({ contacts }) {
   if (!contacts.length) {
@@ -18,23 +13,33 @@ export default function FeaturedList({ contacts }) {
   }
   return (
     <div className="list">
-      {contacts.slice(0, 12).map((it, idx) => (
-        <div className="item" key={idx}>
-          <div className="ic" style={TAB_BG[it.tab] || TAB_BG.empresas}>
-            {TAB_ICON[it.tab] || '📍'}
-          </div>
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, alignItems: 'flex-start' }}>
-              <div className="nm">{it.name}</div>
-              <span className={`badge ${it.prior}`}>{it.prior}</span>
+      {contacts.slice(0, 12).map((it, idx) => {
+        const meta = CAT_META[it.tab] || CAT_META.empresas
+        const Icon = meta.Icon
+        return (
+          <motion.div
+            className="item"
+            key={idx}
+            initial={{ opacity: 0, x: 14 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.04 * idx, duration: 0.4, ease }}
+          >
+            <div className="ic" style={{ background: meta.bg, color: meta.fg }}>
+              <Icon size={18} strokeWidth={2} />
             </div>
-            <div className="ct">
-              {it.city || ''}
-              {it.inst ? ` · ${it.inst}` : ''}
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, alignItems: 'flex-start' }}>
+                <div className="nm">{it.name}</div>
+                <span className={`badge ${it.prior}`}>{it.prior}</span>
+              </div>
+              <div className="ct">
+                {it.city || ''}
+                {it.inst ? ` · ${it.inst}` : ''}
+              </div>
             </div>
-          </div>
-        </div>
-      ))}
+          </motion.div>
+        )
+      })}
     </div>
   )
 }

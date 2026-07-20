@@ -11,6 +11,8 @@ import Tabs from './components/Tabs.jsx'
 import SectionTable from './components/SectionTable.jsx'
 import Overview from './components/Overview.jsx'
 import Reports from './components/Reports.jsx'
+import Partners from './components/Partners.jsx'
+import Footer from './components/Footer.jsx'
 import { DATA } from './data/contacts.js'
 import { useEstado } from './hooks/useEstado.js'
 import { getFilteredContacts } from './hooks/useFilters.js'
@@ -23,6 +25,7 @@ export default function App() {
   const [q, setQ] = useState('')
   const [prio, setPrio] = useState('Todas')
   const [doneF, setDoneF] = useState('Todas')
+  const [navOpen, setNavOpen] = useState(false)
 
   const filters = { q: q.toLowerCase().trim(), prio, doneF, estado }
 
@@ -66,15 +69,15 @@ export default function App() {
 
   return (
     <div className="app">
-      <Sidebar active={tab} onSelect={onSelect} />
+      <Sidebar active={tab} onSelect={onSelect} open={navOpen} onClose={() => setNavOpen(false)} />
       <div className="main">
-        <Topbar q={q} onSearch={setQ} />
+        <Topbar q={q} onSearch={setQ} onMenu={() => setNavOpen((o) => !o)} />
         <div className="content">
           <Hero />
           <StatsBar />
           <ProgressBar estado={estado} />
 
-          <div className="split">
+          <div className="split" id="map">
             <MapPanel contacts={filtered} />
             <div className="feat">
               <div className="hd">
@@ -105,11 +108,9 @@ export default function App() {
             <b>Alta</b> = contato direto e confirmado &nbsp;|&nbsp;{' '}
             <b>Média</b> = contato institucional/genérico, confirmar antes de usar.
           </div>
-          <footer>
-            App gerado a partir da planilha{' '}
-            <b>rede_contatos_po_de_rocha_parana (1).xlsx</b> &middot; O controle de "contatado"
-            é salvo neste navegador (localStorage).
-          </footer>
+
+          <Partners />
+          <Footer />
         </div>
       </div>
     </div>

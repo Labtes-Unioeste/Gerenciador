@@ -1,10 +1,11 @@
-import { MapContainer, TileLayer, GeoJSON, Marker, Popup, Tooltip, useMap } from 'react-leaflet'
+import { MapContainer, GeoJSON, Marker, Popup, Tooltip, useMap } from 'react-leaflet'
 import { useEffect, useMemo } from 'react'
 import L from 'leaflet'
 import { PR_GEO } from '../data/prGeo.js'
 import { geoFor } from '../lib/geo.js'
 import { CAT } from '../data/cat.js'
 import { esc } from '../lib/format.js'
+import { ICONS } from '../lib/icons.js'
 
 const PR_CENTER = [-24.5, -51.5]
 const PR_ZOOM = 7
@@ -18,7 +19,6 @@ const MAP_ICON = L.divIcon({
   popupAnchor: [0, -26],
 })
 
-// Corrige o tamanho do mapa após montar (evita marcadores "invisíveis")
 function FixSize() {
   const map = useMap()
   useEffect(() => {
@@ -40,7 +40,6 @@ function FixSize() {
   return null
 }
 
-// Enquadra marcadores + PR
 function FitBounds({ bounds }) {
   const map = useMap()
   useEffect(() => {
@@ -61,7 +60,6 @@ function FitBounds({ bounds }) {
 }
 
 export default function MapPanel({ contacts }) {
-  // agrupa por coordenada (cidade)
   const markers = useMemo(() => {
     const seen = {}
     const out = []
@@ -85,7 +83,12 @@ export default function MapPanel({ contacts }) {
   return (
     <div className="map-card">
       <div className="hd">
-        <h2><span className="pin">📍</span> Localização no Paraná</h2>
+        <h2>
+          <span className="pin">
+            <ICONS.MapPin size={18} strokeWidth={2.2} />
+          </span>{' '}
+          Localização no Paraná
+        </h2>
         <span
           className="full"
           onClick={() => {
@@ -94,12 +97,12 @@ export default function MapPanel({ contacts }) {
             else if (el?.webkitRequestFullscreen) el.webkitRequestFullscreen()
           }}
         >
-          ⛶ Ver em tela cheia
+          <ICONS.Maximize2 size={14} strokeWidth={2.2} /> Tela cheia
         </span>
       </div>
       <div className="sub">
-        Marcadores sincronizados com a busca, filtros e aba selecionada. Clique em
-        um pino para ver os detalhes.
+        Marcadores sincronizados com a busca, filtros e aba selecionada. Clique em um
+        pino para ver os detalhes.
       </div>
       <div id="map">
         <MapContainer

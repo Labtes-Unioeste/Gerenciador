@@ -1,36 +1,53 @@
+import { motion } from 'framer-motion'
+import { SIDEBAR_ICONS, ICONS } from '../lib/icons.js'
+
 const TABS = [
-  { id: 'overview', icon: '🏠', label: 'Visão Geral' },
-  { id: 'contatos', icon: '👤', label: 'Contatos' },
-  { id: 'empresas', icon: '🏭', label: 'Empresas' },
-  { id: 'pesquisadores', icon: '🔬', label: 'Pesquisadores' },
-  { id: 'universidades', icon: '🎓', label: 'Universidades' },
-  { id: 'fertilizantes', icon: '🌱', label: 'Biofertilizantes' },
-  { id: 'redes', icon: '🔗', label: 'Redes & Eventos' },
-  { id: 'mapa', icon: '🗺️', label: 'Mapa' },
-  { id: 'relatorios', icon: '📊', label: 'Relatórios' },
-  { id: 'config', icon: '⚙️', label: 'Configurações' },
+  { id: 'overview', label: 'Visão Geral' },
+  { id: 'contatos', label: 'Contatos' },
+  { id: 'empresas', label: 'Empresas' },
+  { id: 'pesquisadores', label: 'Pesquisadores' },
+  { id: 'universidades', label: 'Universidades' },
+  { id: 'fertilizantes', label: 'Biofertilizantes' },
+  { id: 'redes', label: 'Redes & Eventos' },
+  { id: 'mapa', label: 'Mapa' },
+  { id: 'relatorios', label: 'Relatórios' },
+  { id: 'config', label: 'Configurações' },
 ]
 
-export default function Sidebar({ active, onSelect }) {
+export default function Sidebar({ active, onSelect, open, onClose }) {
   return (
-    <aside className="side">
+    <aside className={`side ${open ? 'open' : ''}`}>
       <div className="logo">
-        <div className="mk">🌿</div>
+        <div className="mk">
+          <ICONS.Leaf size={22} color="#0c3322" />
+        </div>
         <div>
           <b>REDE DE<br />FERTILIZANTES</b>
           <small>do Paraná</small>
         </div>
       </div>
       <nav>
-        {TABS.map((t) => (
-          <a
-            key={t.id}
-            className={active === t.id ? 'active' : ''}
-            onClick={() => onSelect(t.id)}
-          >
-            <span className="ic">{t.icon}</span> {t.label}
-          </a>
-        ))}
+        {TABS.map((t, i) => {
+          const Icon = SIDEBAR_ICONS[t.id] || ICONS.Network
+          return (
+            <motion.a
+              key={t.id}
+              initial={{ opacity: 0, x: -12 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.04 * i, duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              className={active === t.id ? 'active' : ''}
+              onClick={() => {
+                onSelect(t.id)
+                onClose?.()
+              }}
+            >
+              <span className="ic">
+                <Icon size={18} strokeWidth={2} />
+              </span>{' '}
+              {t.label}
+            </motion.a>
+          )
+        })}
       </nav>
       <div className="me">
         <img
