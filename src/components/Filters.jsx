@@ -1,6 +1,6 @@
 import { ICONS } from '../lib/icons.js'
 
-export default function Filters({ prio, doneF, onPrio, onDone }) {
+export default function Filters({ prio, doneF, onPrio, onDone, onClear, canClear }) {
   return (
     <div className="controls">
       <div style={{ position: 'relative', flex: '0 0 auto' }}>
@@ -23,6 +23,14 @@ export default function Filters({ prio, doneF, onPrio, onDone }) {
           <option value="contatados">Contatados</option>
         </select>
       </div>
+      <button
+        className="btn btn-ghost"
+        style={{ padding: '11px 18px' }}
+        onClick={onClear}
+        disabled={!canClear}
+      >
+        <ICONS.Filter size={15} strokeWidth={2} /> Limpar filtros
+      </button>
     </div>
   )
 }

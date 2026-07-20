@@ -1,6 +1,5 @@
 import { useState, useMemo } from 'react'
-import Sidebar from './components/Sidebar.jsx'
-import Topbar from './components/Topbar.jsx'
+import TopNav from './components/TopNav.jsx'
 import Hero from './components/Hero.jsx'
 import StatsBar from './components/StatsBar.jsx'
 import ProgressBar from './components/ProgressBar.jsx'
@@ -13,6 +12,7 @@ import Overview from './components/Overview.jsx'
 import Reports from './components/Reports.jsx'
 import Partners from './components/Partners.jsx'
 import Footer from './components/Footer.jsx'
+import Pillars from './components/Pillars.jsx'
 import { DATA } from './data/contacts.js'
 import { useEstado } from './hooks/useEstado.js'
 import { getFilteredContacts } from './hooks/useFilters.js'
@@ -46,6 +46,13 @@ export default function App() {
     if (t === 'contatos') setTab('empresas')
   }
 
+  const onClear = () => {
+    setQ('')
+    setPrio('Todas')
+    setDoneF('Todas')
+  }
+  const canClear = q !== '' || prio !== 'Todas' || doneF !== 'Todas'
+
   const renderContent = () => {
     if (tab === 'overview') return <Overview />
     if (tab === 'relatorios') return <Reports estado={estado} />
@@ -68,50 +75,55 @@ export default function App() {
   }
 
   return (
-    <div className="app">
-      <Sidebar active={tab} onSelect={onSelect} open={navOpen} onClose={() => setNavOpen(false)} />
-      <div className="main">
-        <Topbar q={q} onSearch={setQ} onMenu={() => setNavOpen((o) => !o)} />
-        <div className="content">
-          <Hero />
-          <StatsBar />
-          <ProgressBar estado={estado} />
+    <div className="app app-top">
+      <TopNav
+        active={tab}
+        onSelect={onSelect}
+        q={q}
+        onSearch={setQ}
+        open={navOpen}
+        onToggle={(v) => setNavOpen(typeof v === 'boolean' ? v : (o) => !o)}
+      />
+      <div className="content">
+        <Hero />
+        <Pillars />
+        <StatsBar />
+        <ProgressBar estado={estado} />
 
-          <div className="split" id="map">
-            <MapPanel contacts={filtered} />
-            <div className="feat">
-              <div className="hd">
-                <b>Contatos em destaque</b>
-                <a
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault()
-                    setTab('empresas')
-                  }}
-                >
-                  Ver todos
-                </a>
-              </div>
-              <FeaturedList contacts={filtered} />
+        <div className="split" id="map">
+          <MapPanel contacts={filtered} />
+          <div className="feat">
+            <div className="hd">
+              <b>Contatos em destaque</b>
+              <a
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault()
+                  setTab('empresas')
+                }}
+              >
+                Ver todos
+              </a>
             </div>
+            <FeaturedList contacts={filtered} />
           </div>
-
-          <Filters prio={prio} doneF={doneF} onPrio={setPrio} onDone={setDoneF} />
-          <Tabs active={tab} counts={counts} onSelect={onSelect} />
-
-          <div id="content">{renderContent()}</div>
-
-          <div className="info-foot">
-            <b>Como usar:</b> cada contato tem um checkbox <b>"Contatado"</b> — marque à
-            medida que fizer a abordagem. O progresso salva automaticamente neste navegador.
-            Use a busca e os filtros por prioridade/status acima.{' '}
-            <b>Alta</b> = contato direto e confirmado &nbsp;|&nbsp;{' '}
-            <b>Média</b> = contato institucional/genérico, confirmar antes de usar.
-          </div>
-
-          <Partners />
-          <Footer />
         </div>
+
+        <Filters prio={prio} doneF={doneF} onPrio={setPrio} onDone={setDoneF} onClear={onClear} canClear={canClear} />
+        <Tabs active={tab} counts={counts} onSelect={onSelect} />
+
+        <div id="content">{renderContent()}</div>
+
+        <div className="info-foot">
+          <b>Como usar:</b> cada contato tem um checkbox <b>"Contatado"</b> — marque à
+          medida que fizer a abordagem. O progresso salva automaticamente neste navegador.
+          Use a busca e os filtros por prioridade/status acima.{' '}
+          <b>Alta</b> = contato direto e confirmado &nbsp;|&nbsp;{' '}
+          <b>Média</b> = contato institucional/genérico, confirmar antes de usar.
+        </div>
+
+        <Partners />
+        <Footer />
       </div>
     </div>
   )

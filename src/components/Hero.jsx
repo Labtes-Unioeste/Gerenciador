@@ -3,10 +3,13 @@ import { ICONS } from '../lib/icons.js'
 
 const ease = [0.22, 1, 0.36, 1]
 
+// Hero segue o template oficial: imagem de fundo (MODELO-OFICIAL-HERO) com
+// título em branco + CTAs. O texto principal já vem na imagem; mantemos o
+// <h1> como sr-only para acessibilidade/SEO e sobrepomos apenas os botões.
 export default function Hero() {
   return (
     <motion.section
-      className="hero"
+      className="hero hero-official"
       role="banner"
       aria-label="Rede de Fertilizantes do Paraná"
       initial={{ opacity: 0, y: 24 }}
@@ -18,35 +21,12 @@ export default function Hero() {
         universidades e redes que impulsionam a inovação e o desenvolvimento
         sustentável no Paraná.
       </h1>
-      <div className="hero-content">
-        <motion.span
-          className="hero-eyebrow"
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.15, duration: 0.5, ease }}
-        >
-          <ICONS.Sparkles size={14} strokeWidth={2.2} /> Inovação & Sustentabilidade
-        </motion.span>
-        <motion.h1
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25, duration: 0.55, ease }}
-        >
-          Rede de Fertilizantes do Paraná
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.35, duration: 0.55, ease }}
-        >
-          Conectando empresas, pesquisadores, universidades e redes que impulsionam
-          a inovação e o desenvolvimento sustentável do agronegócio paranaense.
-        </motion.p>
+      <div className="hero-content hero-content--cta">
         <motion.div
           className="hero-actions"
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.45, duration: 0.55, ease }}
+          transition={{ delay: 0.35, duration: 0.55, ease }}
         >
           <motion.a
             href="#map"
@@ -58,7 +38,7 @@ export default function Hero() {
           </motion.a>
           <motion.a
             href="#content"
-            className="btn btn-ghost"
+            className="btn btn-ghost btn-ghost-light"
             whileHover={{ y: -2 }}
             whileTap={{ scale: 0.97 }}
           >
