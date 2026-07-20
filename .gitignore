@@ -1,0 +1,16 @@
+# dependências
+node_modules/
+
+# build de produção (gerado por `npm run build`)
+dist/
+
+# logs / ambientes
+*.log
+.env
+.DS_Store
+
+# arquivo original de referência (mantido em archive/)
+# (não ignore)
+
+# lockfile opcional — descomente para não versionar
+# package-lock.json
