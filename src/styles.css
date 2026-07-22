@@ -314,7 +314,7 @@ a:hover { text-decoration: underline; }
 }
 .ov-note b { color: var(--verde-escuro); }
 
-#content { margin-top: 4px; }
+#content { margin-top: 4px; scroll-margin-top: 86px; }
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; align-items: start; max-height: 900px; overflow-y: auto; }
 .grid-fertilizantes { max-height: 700px; }
 .card {

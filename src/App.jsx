@@ -53,6 +53,9 @@ export default function App() {
     if (!value) return
     const internalTab = LABEL_TO_TAB[value] || value
     setTab(internalTab)
+    requestAnimationFrame(() => {
+      document.getElementById('content')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    })
   }
 
   const onClear = () => {
