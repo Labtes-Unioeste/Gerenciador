@@ -47,9 +47,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="copy">
-        © {new Date().getFullYear()} Rede de Fertilizantes do Paraná · UNIOESTE. App gerado a
-        partir da planilha <b>rede_contatos_po_de_rocha_parana (1).xlsx</b>. O controle de
-        “contatado” é salvo localmente neste navegador (localStorage).
+        © {new Date().getFullYear()} Rede de Fertilizantes do Paraná · UNIOESTE.
       </div>
     </motion.footer>
   )
