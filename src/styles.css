@@ -130,16 +130,16 @@ a:hover { text-decoration: underline; }
 
 
 .content {
-  padding: 32px 180px 48px;
+  padding: 32px 220px 48px;
   max-width: var(--maxw);
   width: 100%;
   margin: 0 auto;
 }
-@media (max-width: 1600px) { .content { padding-left: 130px; padding-right: 130px; } }
-@media (max-width: 1440px) { .content { padding-left: 110px; padding-right: 110px; } }
-@media (max-width: 1100px) { .content { padding-left: 80px; padding-right: 80px; } }
-@media (max-width: 760px)  { .content { padding-left: 50px; padding-right: 50px; } }
-@media (max-width: 480px)  { .content { padding-left: 28px; padding-right: 28px; } }
+@media (max-width: 1600px) { .content { padding-left: 150px; padding-right: 150px; } }
+@media (max-width: 1440px) { .content { padding-left: 120px; padding-right: 120px; } }
+@media (max-width: 1100px) { .content { padding-left: 90px; padding-right: 90px; } }
+@media (max-width: 760px)  { .content { padding-left: 56px; padding-right: 56px; } }
+@media (max-width: 480px)  { .content { padding-left: 32px; padding-right: 32px; } }
 
 /* ---------- HERO ---------- */
 .hero {
@@ -164,7 +164,7 @@ a:hover { text-decoration: underline; }
 }
 .hero-content { padding: 6px 52px 46px; max-width: 640px; position: relative; z-index: 2; display: flex; flex-direction: column; height: 100%; }
 .hero-content--cta { width: 100%; padding: 0 52px 40px; display: flex; justify-content: flex-start; flex-direction: column; gap: 16px; margin-top: auto; }
-.hero-text h2 { color: #fff; font-weight: 700; font-size: 40px; line-height: 1.1; max-width: 720px; text-shadow: 0 2px 10px rgba(0,0,0,0.45); letter-spacing: -.3px; font-family: "Manrope", sans-serif; }
+.hero-text h2 { color: #fff; font-weight: 700; font-size: 52px; line-height: 1.08; max-width: 760px; text-shadow: 0 2px 10px rgba(0,0,0,0.45); letter-spacing: -.3px; font-family: "Manrope", sans-serif; }
 .hero-highlight { color: #b9f6ca; white-space: nowrap; }
 .hero-content .btn { align-self: flex-start; }
 .hero-eyebrow {
@@ -197,16 +197,16 @@ a:hover { text-decoration: underline; }
 
 /* ---------- PILARES / VALORES ---------- */
 .pillars { margin-bottom: 26px; }
-.pillars-head { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; margin-bottom: 18px; }
-.pillars-head h2 { font-size: 24px; font-weight: 800; color: var(--verde-escuro); letter-spacing: -0.02em; }
+.pillars-head { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; margin-bottom: 28px; }
+.pillars-head h2 { font-family: "Manrope", sans-serif; font-size: 34px; font-weight: 800; color: var(--verde-escuro); letter-spacing: -0.02em; line-height: 1.15; }
 .pillars-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
 .pillar {
-  background: #fff; border: 1px solid var(--borda); border-radius: var(--radius-sm);
-  padding: 24px; box-shadow: var(--shadow-sm); transition: all .26s var(--ease);
+  background: #fff; border: 1px solid var(--borda); border-radius: 22px;
+  padding: 30px; box-shadow: var(--shadow-sm); transition: all .26s var(--ease);
 }
 .pillar:hover { box-shadow: var(--shadow-lg); border-color: var(--verde-claro); }
 .pillar-ic { width: 52px; height: 52px; border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
-.pillar h3 { font-size: 16px; font-weight: 700; color: var(--verde-escuro); margin-bottom: 8px; }
+.pillar h3 { font-family: "Manrope", sans-serif; font-size: 21px; font-weight: 700; color: #194B36; margin-bottom: 12px; letter-spacing: -0.01em; }
 .pillar p { font-size: 13.5px; color: var(--muted); line-height: 1.55; }
 
 /* ---------- STATS ---------- */
@@ -608,13 +608,13 @@ footer .copy { margin-top: 28px; padding-top: 18px; border-top: 1px solid rgba(2
   max-width: 1440px;
   margin: 0 auto;
   width: 100%;
-  padding: 120px 180px;
+  padding: 120px 220px;
 }
-@media (max-width: 1600px) { .content.sobre-page { padding: 110px 130px; } }
-@media (max-width: 1440px) { .content.sobre-page { padding: 100px 110px; } }
-@media (max-width: 1100px) { .content.sobre-page { padding: 96px 80px; } }
-@media (max-width: 760px)  { .content.sobre-page { padding: 72px 50px; } }
-@media (max-width: 480px)  { .content.sobre-page { padding: 56px 28px; } }
+@media (max-width: 1600px) { .content.sobre-page { padding: 110px 150px; } }
+@media (max-width: 1440px) { .content.sobre-page { padding: 100px 120px; } }
+@media (max-width: 1100px) { .content.sobre-page { padding: 96px 90px; } }
+@media (max-width: 760px)  { .content.sobre-page { padding: 72px 56px; } }
+@media (max-width: 480px)  { .content.sobre-page { padding: 56px 32px; } }
 
 /* ====== PÁGINA SOBRE — layout conforme modelos de referência ====== */
 
