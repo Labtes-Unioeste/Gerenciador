@@ -53,6 +53,10 @@ export default function App() {
     if (!value) return
     const internalTab = LABEL_TO_TAB[value] || value
     setTab(internalTab)
+    if (internalTab === 'sobre') {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+      return
+    }
     requestAnimationFrame(() => {
       document.getElementById('content')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     })
@@ -107,7 +111,13 @@ export default function App() {
         loggedIn={loggedIn}
         onToggleLogin={() => setLoggedIn((v) => !v)}
       />
-      <div className="content">
+      {tab === 'sobre' ? (
+        <div className="content sobre-page">
+          <Sobre />
+          <Footer />
+        </div>
+      ) : (
+        <div className="content">
         <Hero />
         <Pillars />
         <StatsBar />
@@ -148,6 +158,7 @@ export default function App() {
         <Partners />
         <Footer />
       </div>
+      )}
     </div>
   )
 }

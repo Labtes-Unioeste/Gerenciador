@@ -94,9 +94,13 @@ const ENTREGAS = [
   'Seminários, workshops e cursos de capacitação técnica para o setor',
 ]
 
+function Pill({ children }) {
+  return <span className="hero-eyebrow">{children}</span>
+}
+
 function SectionHead({ eyebrow, title }) {
   return (
-    <div className="pillars-head sobre-section-head">
+    <div className="pillars-head sobre-section-head center">
       <span className="hero-eyebrow" style={{ marginBottom: 0 }}>
         {eyebrow}
       </span>
@@ -108,6 +112,7 @@ function SectionHead({ eyebrow, title }) {
 export default function Sobre() {
   return (
     <div className="sobre">
+      {/* HERO */}
       <motion.section
         className="sobre-hero"
         initial={{ opacity: 0, y: 18 }}
@@ -115,36 +120,77 @@ export default function Sobre() {
         viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 0.6, ease }}
       >
-        <span className="hero-eyebrow">
-          <Leaf size={13} strokeWidth={2.4} /> Sobre a Rede TecFert
-        </span>
-        <h2>
-          Tecnologia e conhecimento que <span className="txt-grad">fertilizam o futuro</span>
-        </h2>
-        <p>
-          A Rede TecFert é uma iniciativa de Pesquisa, Desenvolvimento e Inovação (P&amp;D&amp;I),
-          financiada pela Fundação Araucária, que estrutura uma rede de ciência e tecnologia
-          orientada a ampliar a capacidade técnica e produtiva da agricultura e da indústria
-          de fertilizantes no Paraná.
-        </p>
-        <div className="sobre-mission-card">
-          <div className="sobre-mission-ic">
-            <Leaf size={20} strokeWidth={2} />
-          </div>
-          <div>
-            <b>Nossa Missão</b>
+        <div className="sobre-hero-grid">
+          <div className="sobre-hero-text">
+            <span className="hero-eyebrow">
+              <Leaf size={13} strokeWidth={2.4} /> Sobre a Rede TecFert
+            </span>
+            <h2>
+              Tecnologia e conhecimento que <span className="txt-grad">fertilizam o futuro</span>
+            </h2>
             <p>
-              O Brasil importa cerca de 45 milhões de toneladas de fertilizantes por ano —
-              quase 10% do mercado global — enquanto produz menos de 5% do que consome. A
-              Rede TecFert nasce para enfrentar esse cenário, integrando academia, indústria,
-              governo e produtores rurais na chamada "Ciência dos Fertilizantes": da mineração
-              e beneficiamento de matérias-primas até a formulação final e aplicação eficiente
-              no campo.
+              A Rede TecFert é uma iniciativa de Pesquisa, Desenvolvimento e Inovação (P&amp;D&amp;I),
+              financiada pela Fundação Araucária, que estrutura uma rede de ciência e tecnologia
+              orientada a ampliar a capacidade técnica e produtiva da agricultura e da indústria
+              de fertilizantes no Paraná.
             </p>
+            <div className="sobre-mission-card">
+              <div className="sobre-mission-ic">
+                <Leaf size={20} strokeWidth={2} />
+              </div>
+              <div>
+                <b>Nossa Missão</b>
+                <p>
+                  O Brasil importa cerca de 45 milhões de toneladas de fertilizantes por ano —
+                  quase 10% do mercado global — enquanto produz menos de 5% do que consome. A
+                  Rede TecFert nasce para enfrentar esse cenário, integrando academia, indústria,
+                  governo e produtores rurais na chamada "Ciência dos Fertilizantes": da mineração
+                  e beneficiamento de matérias-primas até a formulação final e aplicação eficiente
+                  no campo.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="sobre-hero-media">
+            <img
+              className="sobre-hero-img"
+              src="/hero_sobre.jpg"
+              alt="Plântula de fertilizantes minerais crescendo em solo"
+              loading="lazy"
+            />
+            <div className="sobre-hero-badge">
+              <span className="n">6</span>
+              <span className="l">Áreas Estratégicas</span>
+            </div>
           </div>
         </div>
       </motion.section>
 
+      {/* COORDENAÇÃO — logo abaixo do hero */}
+      <SectionHead eyebrow="Coordenação do Projeto" title="Quem lidera a rede" />
+      <div className="coord-grid">
+        {EQUIPE.map((p, i) => (
+          <motion.div
+            className="coord-card"
+            key={p.nome}
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ delay: 0.08 * i, duration: 0.45, ease }}
+            whileHover={{ y: -4 }}
+          >
+            <img className="coord-photo" src={p.foto} alt={p.nome} loading="lazy" />
+            <div className="coord-info">
+              <h3>{p.nome}</h3>
+              <div className="cargo">{p.cargo}</div>
+              <p>{p.bio}</p>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* STATS */}
       <div className="stats sobre-stats">
         {STATS.map((s, i) => {
           const Icon = s.Icon
@@ -170,7 +216,8 @@ export default function Sobre() {
         })}
       </div>
 
-      <SectionHead eyebrow="Como atuamos" title="Seis frentes que sustentam a rede" />
+      {/* ÁREAS ESTRATÉGICAS */}
+      <SectionHead eyebrow="Áreas Estratégicas" title="Seis frentes que sustentam a rede" />
       <div className="areas-grid">
         {AREAS.map((a, i) => {
           const Icon = a.Icon
@@ -194,29 +241,8 @@ export default function Sobre() {
         })}
       </div>
 
-      <SectionHead eyebrow="Quem lidera a rede" title="Coordenação" />
-      <div className="coord-grid">
-        {EQUIPE.map((p, i) => (
-          <motion.div
-            className="coord-card"
-            key={p.nome}
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ delay: 0.08 * i, duration: 0.45, ease }}
-            whileHover={{ y: -4 }}
-          >
-            <img className="coord-photo" src={p.foto} alt={p.nome} loading="lazy" />
-            <div className="coord-info">
-              <h3>{p.nome}</h3>
-              <div className="cargo">{p.cargo}</div>
-              <p>{p.bio}</p>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-
-      <SectionHead eyebrow="Resultados esperados" title="Resultados que transformam o setor" />
+      {/* IMPACTO */}
+      <SectionHead eyebrow="Impacto que Geramos" title="Resultados que transformam o setor" />
       <div className="impact-grid">
         {IMPACTOS.map((im, i) => {
           const Icon = im.Icon
@@ -240,7 +266,8 @@ export default function Sobre() {
         })}
       </div>
 
-      <SectionHead eyebrow="Entregas do projeto" title="Principais entregas do projeto" />
+      {/* ENTREGAS */}
+      <SectionHead eyebrow="Entregas do Projeto" title="Principais entregas do projeto" />
       <ul className="entregas-list">
         {ENTREGAS.map((texto) => (
           <li key={texto}>
@@ -250,6 +277,7 @@ export default function Sobre() {
         ))}
       </ul>
 
+      {/* FECHA */}
       <motion.div
         className="sobre-closing"
         initial={{ opacity: 0, y: 18 }}
