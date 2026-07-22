@@ -85,8 +85,12 @@ a:hover { text-decoration: underline; }
 @media (max-width: 760px)  { .topnav .tn-inner { padding-left: 56px; padding-right: 56px; } }
 @media (max-width: 480px)  { .topnav .tn-inner { padding-left: 32px; padding-right: 32px; } }
 .topnav .tn-left { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
-.topnav .logo { display: flex; align-items: center; gap: 11px; }
-.topnav .logo-img { height: auto; width: auto; display: block; max-height: 160px; max-width: 680px; object-fit: contain; }
+.topnav .logo {
+  display: flex; align-items: center; gap: 11px;
+  background: linear-gradient(135deg, #0F2E1E, #1F5F3A 55%, #0B3D25);
+  border-radius: 12px; padding: 6px 14px; box-shadow: var(--shadow-sm);
+}
+.topnav .logo-img { height: 40px; width: auto; display: block; max-width: 480px; object-fit: contain; }
 .topnav .logo .mk {
   width: 38px; height: 38px; border-radius: 11px;
   background: linear-gradient(135deg, var(--verde-claro), #9CCC65);

@@ -16,7 +16,7 @@ export default function TopNav({ active, onSelect, open, onToggle }) {
             ☰
           </button>
           <div className="logo">
-            <img className="logo-img" src="/logo-fertilizantes.png" alt="Rede de Fertilizantes do Paraná" />
+            <img className="logo-img" src="/logo-tecfert.png" alt="Rede TecFert do Paraná" />
           </div>
         </div>
 
