@@ -13,11 +13,19 @@ import Reports from './components/Reports.jsx'
 import Partners from './components/Partners.jsx'
 import Footer from './components/Footer.jsx'
 import Pillars from './components/Pillars.jsx'
+import Sobre from './components/Sobre.jsx'
 import { DATA } from './data/contacts.js'
 import { useEstado } from './hooks/useEstado.js'
 import { getFilteredContacts } from './hooks/useFilters.js'
 
 const SECTION_TABS = ['empresas', 'pesquisadores', 'universidades', 'fertilizantes', 'redes']
+const LABEL_TO_TAB = {
+  inicio: 'overview',
+  fornecedores: 'fertilizantes',
+  mapa: 'mapa',
+  informacoes: 'relatorios',
+  contato: 'empresas',
+}
 
 export default function App() {
   const { estado, toggle } = useEstado()
@@ -26,9 +34,9 @@ export default function App() {
   const [prio, setPrio] = useState('Todas')
   const [doneF, setDoneF] = useState('Todas')
   const [navOpen, setNavOpen] = useState(false)
+  const [loggedIn, setLoggedIn] = useState(false)
 
   const filters = { q: q.toLowerCase().trim(), prio, doneF, estado }
-
   // contatos filtrados (usado por mapa, destaques e reports)
   const filtered = useMemo(
     () => getFilteredContacts({ q: filters.q, prio, doneF, estado, tab }),
@@ -41,9 +49,10 @@ export default function App() {
     return c
   }, [])
 
-  const onSelect = (t) => {
-    setTab(t)
-    if (t === 'contatos') setTab('empresas')
+  const onSelect = (value) => {
+    if (!value) return
+    const internalTab = LABEL_TO_TAB[value] || value
+    setTab(internalTab)
   }
 
   const onClear = () => {
@@ -54,8 +63,8 @@ export default function App() {
   const canClear = q !== '' || prio !== 'Todas' || doneF !== 'Todas'
 
   const renderContent = () => {
-    if (tab === 'overview') return <Overview />
     if (tab === 'relatorios') return <Reports estado={estado} />
+    if (tab === 'sobre') return <Sobre />
     if (tab === 'mapa')
       return (
         <div className="ov-note">
@@ -63,14 +72,23 @@ export default function App() {
           ou prioridade, os marcadores são ajustados automaticamente.
         </div>
       )
-    if (tab === 'config')
+    if (tab === 'config') {
       return (
         <div className="ov-note">
           Configurações. O controle de "contatado" é salvo localmente neste navegador
           (localStorage) e não é enviado a nenhum servidor.
         </div>
       )
-    if (SECTION_TABS.includes(tab)) return <SectionTable tab={tab} filters={filters} onToggle={toggle} />
+    }
+    if (SECTION_TABS.includes(tab))
+      return (
+        <SectionTable
+          tab={tab}
+          filters={filters}
+          onToggle={toggle}
+          className={tab === 'fertilizantes' ? 'grid-fertilizantes' : ''}
+        />
+      )
     return <Overview />
   }
 
@@ -83,6 +101,8 @@ export default function App() {
         onSearch={setQ}
         open={navOpen}
         onToggle={(v) => setNavOpen(typeof v === 'boolean' ? v : (o) => !o)}
+        loggedIn={loggedIn}
+        onToggleLogin={() => setLoggedIn((v) => !v)}
       />
       <div className="content">
         <Hero />
@@ -99,7 +119,7 @@ export default function App() {
                 href="#"
                 onClick={(e) => {
                   e.preventDefault()
-                  setTab('empresas')
+                  onSelect('fornecedores')
                 }}
               >
                 Ver todos

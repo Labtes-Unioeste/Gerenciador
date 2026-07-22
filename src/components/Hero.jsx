@@ -22,6 +22,13 @@ export default function Hero() {
         sustentável no Paraná.
       </h1>
       <div className="hero-content hero-content--cta">
+        <div className="hero-text">
+          <h2>
+            Conectando tecnologia,{' '}
+            <span className="hero-highlight">conhecimento &amp; sustentabilidade</span>{' '}
+            para uma agricultura mais produtiva
+          </h2>
+        </div>
         <motion.div
           className="hero-actions"
           initial={{ opacity: 0, y: 16 }}

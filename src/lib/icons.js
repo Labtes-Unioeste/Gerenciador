@@ -33,6 +33,7 @@ import {
   Users2,
   Award,
   Recycle,
+  LogIn,
 } from 'lucide-react'
 
 export const SIDEBAR_ICONS = {
@@ -95,7 +96,10 @@ export const ICONS = {
   Sparkles,
   ShieldCheck,
   TrendingUp,
+  Users2,
+  Award,
   Recycle,
+  LogIn,
 }
 
-export { LayoutDashboard, Users, Factory, Microscope, GraduationCap, Sprout, Share2, Map, BarChart3, Settings }
+export { LayoutDashboard, Users, Factory, Microscope, GraduationCap, Sprout, Share2, Map, BarChart3, Settings, LogIn }

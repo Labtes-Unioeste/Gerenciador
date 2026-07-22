@@ -28,8 +28,8 @@ export default function FeaturedList({ contacts }) {
               <Icon size={18} strokeWidth={2} />
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, alignItems: 'flex-start' }}>
-                <div className="nm">{it.name}</div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, alignItems: 'center' }}>
+                <div className="nm" title={it.name}>{it.name}</div>
                 <span className={`badge ${it.prior}`}>{it.prior}</span>
               </div>
               <div className="ct">

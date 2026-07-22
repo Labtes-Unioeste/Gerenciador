@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { useMemo } from 'react'
 import { linkify, kindForCol, uid } from '../lib/format.js'
-import { ICONS } from '../lib/icons.js'
+import { ICONS, CAT_META } from '../lib/icons.js'
 
 function kindIcon(kind) {
   if (kind === 'email') return ICONS.Mail
@@ -14,6 +14,8 @@ export default function RowCard({ tab, i, row, cols, isDone, onToggle }) {
   const id = uid(tab, i)
   const prior = row[row.length - 1]
   const source = row[row.length - 2]
+  const meta = CAT_META[tab] || CAT_META.empresas
+  const Icon = meta.Icon
 
   const body = useMemo(
     () =>
@@ -41,7 +43,10 @@ export default function RowCard({ tab, i, row, cols, isDone, onToggle }) {
       whileHover={{ y: -5 }}
     >
       <div className="head">
-        <h3>{row[0]}</h3>
+        <div className="head-left">
+          <span className="avatar" style={{ background: meta.bg, color: meta.fg }}><Icon size={16} strokeWidth={2} /></span>
+          <h3 title={row[0]}>{row[0]}</h3>
+        </div>
         <span className={`badge ${prior}`}>{prior}</span>
       </div>
       {body}
@@ -49,7 +54,7 @@ export default function RowCard({ tab, i, row, cols, isDone, onToggle }) {
         <label className="chk">
           <input type="checkbox" checked={!!isDone} onChange={() => onToggle(id)} /> Contatado
         </label>
-        <span className="src">Fonte: {source}</span>
+        <span className="src" title={String(source)}>Fonte: {source}</span>
       </div>
     </motion.div>
   )

@@ -1,16 +1,15 @@
-import { MapContainer, GeoJSON, Marker, Popup, Tooltip, useMap } from 'react-leaflet'
+import { MapContainer, TileLayer, GeoJSON, Marker, Popup, Tooltip, useMap } from 'react-leaflet'
 import { useEffect, useMemo } from 'react'
 import L from 'leaflet'
 import { PR_GEO } from '../data/prGeo.js'
 import { geoFor } from '../lib/geo.js'
 import { CAT } from '../data/cat.js'
 import { esc } from '../lib/format.js'
-import { ICONS } from '../lib/icons.js'
+import { ICONS, CAT_META } from '../lib/icons.js'
 
 const PR_CENTER = [-24.5, -51.5]
 const PR_ZOOM = 7
 
-// Ícone SVG embutido (sem depender de CDN de imagem)
 const MAP_ICON = L.divIcon({
   className: 'pin-marker',
   html: '<svg width="30" height="30" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#10b981" stroke="#065f46" stroke-width="1.2" d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7z"/><circle cx="12" cy="9" r="3" fill="#fff"/></svg>',
@@ -23,9 +22,7 @@ function FixSize() {
   const map = useMap()
   useEffect(() => {
     const fix = () => {
-      try {
-        map.invalidateSize({ animate: false })
-      } catch {}
+      try { map.invalidateSize({ animate: false }) } catch {}
     }
     fix()
     const t1 = setTimeout(fix, 300)
@@ -43,11 +40,6 @@ function FixSize() {
 function FitBounds({ bounds }) {
   const map = useMap()
   useEffect(() => {
-    if (!bounds.length) {
-      map.closePopup()
-      map.setView(PR_CENTER, PR_ZOOM)
-      return
-    }
     try {
       const prBounds = L.geoJSON(PR_GEO).getBounds()
       const all = L.latLngBounds(bounds)
@@ -147,11 +139,17 @@ export default function MapPanel({ contacts }) {
       </div>
       <div className="map-legend">
         <b>Legenda</b>
-        <div className="li">🏭 Empresa / Mineradora</div>
-        <div className="li">🔬 Pesquisador / Órgão</div>
-        <div className="li">🎓 Universidade</div>
-        <div className="li">🌱 Biofertilizante</div>
-        <div className="li">🔗 Rede / Evento</div>
+        {(CAT.empresas ? ['empresas','pesquisadores','universidades','fertilizantes','redes'] : []).map((k) => {
+          const meta = CAT_META[k]
+          if (!meta) return null
+          const label = {empresas:'Empresa / Mineradora',pesquisadores:'Pesquisador / Órgão',universidades:'Universidade',fertilizantes:'Biofertilizante',redes:'Rede / Evento'}[k] || k
+          return (
+            <div className="li" key={k}>
+              <span className="dot" style={{ background: meta.bg, color: meta.fg }}><meta.Icon size={12} strokeWidth={2.2} /></span>
+              {label}
+            </div>
+          )
+        })}
       </div>
     </div>
   )
