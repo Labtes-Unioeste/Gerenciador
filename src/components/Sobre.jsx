@@ -202,7 +202,7 @@ export default function Sobre() {
               transition={{ delay: 0.05 * i, duration: 0.45, ease }}
               whileHover={{ y: -4 }}
             >
-              <div className="ic" style={{ background: s.bg, color: s.fg }}>
+              <div className="ic" style={{ color: s.fg }}>
                 <Icon size={22} strokeWidth={2} />
               </div>
               <div>

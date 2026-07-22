@@ -63,7 +63,7 @@ export default function Pillars() {
               transition={{ delay: 0.06 * i, duration: 0.45, ease }}
               whileHover={{ y: -6 }}
             >
-              <div className="pillar-ic" style={{ background: p.bg, color: p.fg }}>
+              <div className="pillar-ic" style={{ color: p.fg }}>
                 <Icon size={24} strokeWidth={2} />
               </div>
               <h3>{p.title}</h3>
