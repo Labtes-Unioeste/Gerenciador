@@ -5,7 +5,7 @@ import { PR_GEO } from '../data/prGeo.js'
 import { geoFor } from '../lib/geo.js'
 import { CAT } from '../data/cat.js'
 import { esc } from '../lib/format.js'
-import { ICONS, CAT_META } from '../lib/icons.js'
+import { ICONS } from '../lib/icons.js'
 import MunicipiosLayer from './MunicipiosLayer.jsx'
 
 const PR_CENTER = [-24.5, -51.5]
@@ -136,20 +136,6 @@ export default function MapPanel({ contacts }) {
           <FixSize />
           <FitBounds bounds={bounds} />
         </MapContainer>
-      </div>
-      <div className="map-legend">
-        <b>Legenda</b>
-        {(CAT.empresas ? ['empresas','pesquisadores','universidades','fertilizantes','redes'] : []).map((k) => {
-          const meta = CAT_META[k]
-          if (!meta) return null
-          const label = {empresas:'Empresa / Mineradora',pesquisadores:'Pesquisador / Órgão',universidades:'Universidade',fertilizantes:'Biofertilizante',redes:'Rede / Evento'}[k] || k
-          return (
-            <div className="li" key={k}>
-              <span className="dot" style={{ background: meta.bg, color: meta.fg }}><meta.Icon size={12} strokeWidth={2.2} /></span>
-              {label}
-            </div>
-          )
-        })}
       </div>
     </div>
   )

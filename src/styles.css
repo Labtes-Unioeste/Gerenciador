@@ -286,14 +286,10 @@ a:hover { text-decoration: underline; }
 /* ---------- SPLIT (mapa + destaque) ---------- */
 .split { display: grid; grid-template-columns: 1.8fr 1fr; gap: 22px; margin-bottom: 26px; }
 
+.map-section { margin-bottom: 26px; }
 .map-card {
   background: #fff; border: 1px solid var(--borda); border-radius: var(--radius);
-  padding: 22px; box-shadow: var(--shadow-lg); display: flex; flex-direction: column; position: relative; overflow: visible;
-}
-.map-card::before {
-  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px;
-  background: linear-gradient(90deg, var(--verde-claro), var(--verde-medio));
-  border-radius: var(--radius) var(--radius) 0 0;
+  padding: 22px; box-shadow: none; display: flex; flex-direction: column; position: relative; overflow: visible;
 }
 .map-card .hd { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
 .map-card .hd h2 { font-size: 18px; font-weight: 700; color: var(--verde-escuro); display: flex; align-items: center; gap: 9px; }
@@ -304,7 +300,7 @@ a:hover { text-decoration: underline; }
 }
 .map-card .full:hover { background: var(--verde-claro); color: #fff; }
 .map-card .sub { font-size: 13px; color: var(--muted); margin-bottom: 14px; }
-#map { height: 420px; border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--borda); background: #F8FAF8; }
+#map { height: 520px; border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--borda); background: #F8FAF8; }
 .map-legend { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center; }
 .map-legend b { font-size: 12.5px; color: var(--txt); margin-right: 4px; }
 .map-legend .li { font-size: 12.5px; color: var(--muted); display: inline-flex; align-items: center; gap: 8px; }
@@ -802,29 +798,27 @@ footer .copy { margin-top: 28px; padding-top: 18px; border-top: 1px solid rgba(2
   color: var(--verde-escuro); border: 1px solid var(--borda);
 }
 
-/* Painel de filtro por categoria (ao lado do mapa, na Home) */
-.map-cat-filter { display: flex; flex-direction: column; gap: 2px; }
+/* Faixa discreta de filtro por categoria, embaixo do mapa (nao e um card/quadro) */
+.map-cat-filter { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
 .map-cat-row {
-  display: flex; align-items: center; gap: 12px; width: 100%;
-  background: none; border: none; border-bottom: 1px solid var(--borda);
-  padding: 14px 4px; cursor: pointer; text-align: left; font-family: inherit;
+  display: inline-flex; align-items: center; gap: 9px;
+  background: none; border: 1px solid var(--borda); border-radius: 999px;
+  padding: 9px 16px 9px 12px; cursor: pointer; font-family: inherit;
   transition: all .2s var(--ease);
 }
-.map-cat-row:last-child { border-bottom: none; }
-.map-cat-row:hover { background: var(--verde-suave); border-radius: 8px; }
-.map-cat-row.active { background: var(--verde-suave); border-radius: 8px; }
-.map-cat-ic {
-  width: 34px; height: 34px; border-radius: 9px; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  background: #fff; border: 1px solid var(--borda); color: var(--verde-medio);
-}
-.map-cat-row.active .map-cat-ic { background: var(--verde-medio); color: #fff; border-color: var(--verde-medio); }
+.map-cat-row:hover { border-color: var(--verde-claro); background: var(--verde-suave); }
+.map-cat-row.active { background: var(--verde-medio); border-color: var(--verde-medio); }
+.map-cat-ic { display: flex; align-items: center; justify-content: center; color: var(--verde-medio); }
+.map-cat-row.active .map-cat-ic { color: #fff; }
 .map-cat-label {
-  flex: 1; font-family: "Manrope", sans-serif; font-size: 10.5px; font-weight: 700;
-  letter-spacing: .06em; text-transform: uppercase; color: var(--muted);
+  font-family: "Manrope", sans-serif; font-size: 12.5px; font-weight: 600; color: var(--txt);
 }
-.map-cat-row.active .map-cat-label { color: var(--verde-escuro); }
-.map-cat-n { font-family: "Manrope", sans-serif; font-size: 20px; font-weight: 800; color: var(--verde-escuro); }
+.map-cat-row.active .map-cat-label { color: #fff; }
+.map-cat-n {
+  font-family: "Manrope", sans-serif; font-size: 12px; font-weight: 800; color: var(--verde-escuro);
+  background: var(--verde-suave); border-radius: 999px; padding: 1px 8px; min-width: 22px; text-align: center;
+}
+.map-cat-row.active .map-cat-n { background: rgba(255,255,255,0.25); color: #fff; }
 
 /* Tooltip dos municipios no mapa */
 .municipio-tooltip {
