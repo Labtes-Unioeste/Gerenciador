@@ -34,6 +34,9 @@ import {
   Award,
   Recycle,
   LogIn,
+  Handshake,
+  Lightbulb,
+  Tractor,
 } from 'lucide-react'
 
 export const SIDEBAR_ICONS = {
