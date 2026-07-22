@@ -34,7 +34,6 @@ export default function App() {
   const [prio, setPrio] = useState('Todas')
   const [doneF, setDoneF] = useState('Todas')
   const [navOpen, setNavOpen] = useState(false)
-  const [loggedIn, setLoggedIn] = useState(false)
 
   const filters = { q: q.toLowerCase().trim(), prio, doneF, estado }
   // contatos filtrados (usado por mapa, destaques e reports)
@@ -91,12 +90,8 @@ export default function App() {
       <TopNav
         active={tab}
         onSelect={onSelect}
-        q={q}
-        onSearch={setQ}
         open={navOpen}
         onToggle={(v) => setNavOpen(typeof v === 'boolean' ? v : (o) => !o)}
-        loggedIn={loggedIn}
-        onToggleLogin={() => setLoggedIn((v) => !v)}
       />
       {tab === 'sobre' ? (
         <div className="content sobre-page">
