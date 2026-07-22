@@ -108,7 +108,7 @@ export default function App() {
         <div className="content content-home">
           <Hero />
 
-          <div className="map-section" id="map">
+          <div className="map-section" id="mapa">
             <MapPanel contacts={mapFiltered} />
             <MapCategoryFilter counts={counts} active={mapCat} onSelect={setMapCat} />
           </div>

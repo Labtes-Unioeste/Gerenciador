@@ -64,7 +64,7 @@ export default function Hero() {
             transition={{ delay: 0.35, duration: 0.55, ease }}
           >
             <motion.a
-              href="#map"
+              href="#mapa"
               className="btn btn-primary"
               whileHover={{ y: -2 }}
               whileTap={{ scale: 0.97 }}
