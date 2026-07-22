@@ -52,10 +52,6 @@ export default function Hero() {
               Conectando tecnologia, conhecimento e sustentabilidade para uma
               agricultura mais produtiva.
             </h2>
-            <p className="hero-subtitle">
-              Encontre fornecedores, mapas e informações estratégicas sobre
-              fertilizantes em todo o Paraná.
-            </p>
           </div>
           <motion.div
             className="hero-actions"
