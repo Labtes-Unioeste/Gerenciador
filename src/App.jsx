@@ -53,13 +53,7 @@ export default function App() {
     if (!value) return
     const internalTab = LABEL_TO_TAB[value] || value
     setTab(internalTab)
-    if (internalTab === 'sobre' || internalTab === 'overview') {
-      window.scrollTo({ top: 0, behavior: 'smooth' })
-      return
-    }
-    requestAnimationFrame(() => {
-      document.getElementById('content')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    })
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   const onClear = () => {
