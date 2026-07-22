@@ -116,6 +116,33 @@ export default function App() {
           <Sobre />
           <Footer />
         </div>
+      ) : tab === 'overview' ? (
+        <div className="content content-home">
+          <Hero />
+
+          <Filters prio={prio} doneF={doneF} onPrio={setPrio} onDone={setDoneF} onClear={onClear} canClear={canClear} />
+
+          <div className="split" id="map">
+            <MapPanel contacts={filtered} />
+            <div className="feat">
+              <div className="hd">
+                <b>Contatos em destaque</b>
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    onSelect('informacoes')
+                  }}
+                >
+                  Ver todos
+                </a>
+              </div>
+              <FeaturedList contacts={filtered} />
+            </div>
+          </div>
+
+          <Footer />
+        </div>
       ) : (
         <div className="content">
         <Hero />
@@ -132,7 +159,7 @@ export default function App() {
                 href="#"
                 onClick={(e) => {
                   e.preventDefault()
-                  onSelect('fornecedores')
+                  onSelect('informacoes')
                 }}
               >
                 Ver todos
