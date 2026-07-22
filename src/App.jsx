@@ -22,7 +22,7 @@ const SECTION_TABS = ['empresas', 'pesquisadores', 'universidades', 'fertilizant
 const LABEL_TO_TAB = {
   inicio: 'overview',
   fornecedores: 'fertilizantes',
-  mapa: 'mapa',
+  mapa: 'overview',
   informacoes: 'relatorios',
   contato: 'empresas',
 }
@@ -53,7 +53,7 @@ export default function App() {
     if (!value) return
     const internalTab = LABEL_TO_TAB[value] || value
     setTab(internalTab)
-    if (internalTab === 'sobre') {
+    if (internalTab === 'sobre' || internalTab === 'overview') {
       window.scrollTo({ top: 0, behavior: 'smooth' })
       return
     }
@@ -72,13 +72,6 @@ export default function App() {
   const renderContent = () => {
     if (tab === 'relatorios') return <Reports estado={estado} />
     if (tab === 'sobre') return <Sobre />
-    if (tab === 'mapa')
-      return (
-        <div className="ov-note">
-          Use o mapa acima para visualizar todos os contatos. Aplicando filtros na busca
-          ou prioridade, os marcadores são ajustados automaticamente.
-        </div>
-      )
     if (tab === 'config') {
       return (
         <div className="ov-note">
@@ -144,47 +137,33 @@ export default function App() {
           <Footer />
         </div>
       ) : (
-        <div className="content">
-        <Hero />
-        <Pillars />
-        <StatsBar />
-        <ProgressBar estado={estado} />
-
-        <div className="split" id="map">
-          <MapPanel contacts={filtered} />
-          <div className="feat">
-            <div className="hd">
-              <b>Contatos em destaque</b>
-              <a
-                href="#"
-                onClick={(e) => {
-                  e.preventDefault()
-                  onSelect('informacoes')
-                }}
-              >
-                Ver todos
-              </a>
-            </div>
-            <FeaturedList contacts={filtered} />
+        <div className="content content-info">
+          <div className="info-page-head">
+            <span className="hero-eyebrow">Informações</span>
+            <h2>Todos os contatos da rede</h2>
+            <p>Pilares, estatísticas, progresso de prospecção e o cadastro completo por categoria.</p>
           </div>
+
+          <Pillars />
+          <StatsBar />
+          <ProgressBar estado={estado} />
+
+          <Filters prio={prio} doneF={doneF} onPrio={setPrio} onDone={setDoneF} onClear={onClear} canClear={canClear} />
+          <Tabs active={tab} counts={counts} onSelect={onSelect} />
+
+          <div id="content">{renderContent()}</div>
+
+          <div className="info-foot">
+            <b>Como usar:</b> cada contato tem um checkbox <b>"Contatado"</b> — marque à
+            medida que fizer a abordagem. O progresso salva automaticamente neste navegador.
+            Use a busca e os filtros por prioridade/status acima.{' '}
+            <b>Alta</b> = contato direto e confirmado &nbsp;|&nbsp;{' '}
+            <b>Média</b> = contato institucional/genérico, confirmar antes de usar.
+          </div>
+
+          <Partners />
+          <Footer />
         </div>
-
-        <Filters prio={prio} doneF={doneF} onPrio={setPrio} onDone={setDoneF} onClear={onClear} canClear={canClear} />
-        <Tabs active={tab} counts={counts} onSelect={onSelect} />
-
-        <div id="content">{renderContent()}</div>
-
-        <div className="info-foot">
-          <b>Como usar:</b> cada contato tem um checkbox <b>"Contatado"</b> — marque à
-          medida que fizer a abordagem. O progresso salva automaticamente neste navegador.
-          Use a busca e os filtros por prioridade/status acima.{' '}
-          <b>Alta</b> = contato direto e confirmado &nbsp;|&nbsp;{' '}
-          <b>Média</b> = contato institucional/genérico, confirmar antes de usar.
-        </div>
-
-        <Partners />
-        <Footer />
-      </div>
       )}
     </div>
   )

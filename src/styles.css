@@ -773,3 +773,13 @@ footer .copy { margin-top: 28px; padding-top: 18px; border-top: 1px solid rgba(2
   .sobre-hero-img { max-height: 300px; }
   .sobre-hero-badge { left: 0; bottom: 14px; }
 }
+
+/* Cabecalho da pagina dedicada Informacoes */
+.content-info { padding-top: 40px; }
+.info-page-head { margin-bottom: 32px; max-width: 640px; }
+.info-page-head .hero-eyebrow { margin-bottom: 14px; }
+.info-page-head h2 {
+  font-family: "Manrope", sans-serif; font-size: 30px; font-weight: 800;
+  color: var(--verde-escuro); letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 10px;
+}
+.info-page-head p { font-size: 14.5px; color: var(--muted); line-height: 1.6; margin: 0; }
