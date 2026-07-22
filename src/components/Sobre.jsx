@@ -141,12 +141,10 @@ export default function Sobre() {
               <div>
                 <b>Nossa Missão</b>
                 <p>
-                  O Brasil importa cerca de 45 milhões de toneladas de fertilizantes por ano —
-                  quase 10% do mercado global — enquanto produz menos de 5% do que consome. A
-                  Rede TecFert nasce para enfrentar esse cenário, integrando academia, indústria,
-                  governo e produtores rurais na chamada "Ciência dos Fertilizantes": da mineração
-                  e beneficiamento de matérias-primas até a formulação final e aplicação eficiente
-                  no campo.
+                  Estruturar uma rede colaborativa de pesquisa e inovação, integrando
+                  academia, indústria, governo e produtores rurais na "Ciência dos
+                  Fertilizantes" — da mineração de matérias-primas até a aplicação
+                  eficiente no campo.
                 </p>
               </div>
             </div>
