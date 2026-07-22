@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion'
-import { SIDEBAR_ICONS, ICONS } from '../lib/icons.js'
 
 const TABS = [
   { id: 'inicio', label: 'Início' },
@@ -22,7 +21,6 @@ export default function TopNav({ active, onSelect, open, onToggle }) {
 
         <nav className={`tn-nav ${open ? 'open' : ''}`}>
           {TABS.map((t, i) => {
-            const Icon = SIDEBAR_ICONS[t.id] || ICONS.Network
             const isActive = active === t.id
             const handleClick = () => {
               onSelect(t.id)
@@ -37,7 +35,6 @@ export default function TopNav({ active, onSelect, open, onToggle }) {
                 className={isActive ? 'active' : ''}
                 onClick={handleClick}
               >
-                <Icon size={16} strokeWidth={2} />
                 {t.label}
               </motion.a>
             )
