@@ -417,10 +417,10 @@ footer {
   margin-top: 26px; background: var(--verde-escuro); color: #cfe6d6;
   border-radius: var(--radius); padding: 36px 40px; box-shadow: var(--shadow-md);
 }
-footer .fgrid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 30px; }
+footer .fgrid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 30px; align-items: start; }
 footer .fbrand-logo {
-  display: inline-block; height: 68px; width: auto; max-width: 320px; object-fit: contain;
-  background: #fff; border-radius: 12px; padding: 12px 20px; margin-bottom: 0;
+  display: inline-block; height: 160px; width: auto; max-width: 460px; object-fit: contain;
+  background: #fff; border-radius: 14px; padding: 16px 26px; margin-bottom: 0;
 }
 footer .fbrand b { font-size: 16px; color: #fff; font-weight: 700; }
 footer .fbrand p { font-size: 13px; color: #aecdba; margin-top: 10px; line-height: 1.6; }
