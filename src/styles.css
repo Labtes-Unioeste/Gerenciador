@@ -414,7 +414,7 @@ a:hover { text-decoration: underline; }
 }
 .info-foot b { color: var(--verde-escuro); }
 footer {
-  margin-top: 26px; background: var(--verde-escuro); color: #cfe6d6;
+  margin-top: 26px; background: linear-gradient(135deg, #123D28 0%, var(--verde-escuro) 45%, #2E7D32 100%); color: #cfe6d6;
   border-radius: var(--radius); padding: 36px 40px; box-shadow: var(--shadow-md);
 }
 footer .fgrid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 30px; align-items: start; }
