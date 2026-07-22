@@ -791,3 +791,46 @@ footer .copy { margin-top: 28px; padding-top: 18px; border-top: 1px solid rgba(2
   color: var(--verde-escuro); letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 10px;
 }
 .info-page-head p { font-size: 14.5px; color: var(--muted); line-height: 1.6; margin: 0; }
+
+/* Bussola N no canto do mapa */
+.map-compass {
+  position: absolute; top: 14px; right: 14px; z-index: 500;
+  width: 30px; height: 30px; border-radius: 50%;
+  background: rgba(255,255,255,0.9); box-shadow: var(--shadow-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-family: "Manrope", sans-serif; font-size: 12px; font-weight: 800;
+  color: var(--verde-escuro); border: 1px solid var(--borda);
+}
+
+/* Painel de filtro por categoria (ao lado do mapa, na Home) */
+.map-cat-filter { display: flex; flex-direction: column; gap: 2px; }
+.map-cat-row {
+  display: flex; align-items: center; gap: 12px; width: 100%;
+  background: none; border: none; border-bottom: 1px solid var(--borda);
+  padding: 14px 4px; cursor: pointer; text-align: left; font-family: inherit;
+  transition: all .2s var(--ease);
+}
+.map-cat-row:last-child { border-bottom: none; }
+.map-cat-row:hover { background: var(--verde-suave); border-radius: 8px; }
+.map-cat-row.active { background: var(--verde-suave); border-radius: 8px; }
+.map-cat-ic {
+  width: 34px; height: 34px; border-radius: 9px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: #fff; border: 1px solid var(--borda); color: var(--verde-medio);
+}
+.map-cat-row.active .map-cat-ic { background: var(--verde-medio); color: #fff; border-color: var(--verde-medio); }
+.map-cat-label {
+  flex: 1; font-family: "Manrope", sans-serif; font-size: 10.5px; font-weight: 700;
+  letter-spacing: .06em; text-transform: uppercase; color: var(--muted);
+}
+.map-cat-row.active .map-cat-label { color: var(--verde-escuro); }
+.map-cat-n { font-family: "Manrope", sans-serif; font-size: 20px; font-weight: 800; color: var(--verde-escuro); }
+
+/* Tooltip dos municipios no mapa */
+.municipio-tooltip {
+  background: #fff !important; border: 1px solid var(--borda) !important;
+  border-radius: 8px !important; box-shadow: var(--shadow-sm) !important;
+  font-family: "Manrope", sans-serif; font-size: 12px; color: var(--verde-escuro);
+  padding: 4px 10px !important;
+}
+.municipio-tooltip::before { display: none; }

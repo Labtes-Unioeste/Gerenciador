@@ -26,6 +26,14 @@ const HOVER_STYLE = {
   fillOpacity: 0.9,
 }
 
+const FILL_SHADES = ['#C8E6C9', '#B2DFB5', '#9CCC9E', '#A5D6A7', '#81C784', '#8BC79B']
+
+function shadeFor(name) {
+  let h = 0
+  for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) >>> 0
+  return FILL_SHADES[h % FILL_SHADES.length]
+}
+
 export default function MunicipiosLayer({ contacts }) {
   const map = useMap()
   const [geoJsonData, setGeoJsonData] = useState(null)
@@ -58,7 +66,18 @@ export default function MunicipiosLayer({ contacts }) {
     if (!geoJsonData) return
     try {
       const layer = L.geoJSON(geoJsonData, {
-        style: () => ({ color: '#66BB6A', weight: 0.8, opacity: 0.9, fillColor: '#E8F5E9', fillOpacity: 0.7 }),
+        style: (feature) => {
+          const props = feature?.properties || {}
+          const name = props.name || props.NM_MUN || ''
+          const hasContacts = !!countByCity[name]
+          return {
+            color: '#5B9E64',
+            weight: 0.7,
+            opacity: 0.55,
+            fillColor: hasContacts ? '#4E9F5A' : shadeFor(name),
+            fillOpacity: hasContacts ? 0.85 : 0.75,
+          }
+        },
         onEachFeature: (feature, layer) => {
           const props = feature?.properties || {}
           const name = props.name || props.NM_MUN || 'Município'

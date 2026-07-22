@@ -6,6 +6,7 @@ import { geoFor } from '../lib/geo.js'
 import { CAT } from '../data/cat.js'
 import { esc } from '../lib/format.js'
 import { ICONS, CAT_META } from '../lib/icons.js'
+import MunicipiosLayer from './MunicipiosLayer.jsx'
 
 const PR_CENTER = [-24.5, -51.5]
 const PR_ZOOM = 7
@@ -79,7 +80,7 @@ export default function MapPanel({ contacts }) {
           <span className="pin">
             <ICONS.MapPin size={18} strokeWidth={2.2} />
           </span>{' '}
-          Localização no Paraná
+          Mapa do Paraná
         </h2>
         <span
           className="full"
@@ -92,11 +93,9 @@ export default function MapPanel({ contacts }) {
           <ICONS.Maximize2 size={14} strokeWidth={2.2} /> Tela cheia
         </span>
       </div>
-      <div className="sub">
-        Marcadores sincronizados com a busca, filtros e aba selecionada. Clique em um
-        pino para ver os detalhes.
-      </div>
-      <div id="map">
+      <div className="sub">Localize fornecedores e informações por região do estado.</div>
+      <div id="map" style={{ position: 'relative' }}>
+        <div className="map-compass" aria-hidden="true">N</div>
         <MapContainer
           center={PR_CENTER}
           zoom={PR_ZOOM}
@@ -106,8 +105,9 @@ export default function MapPanel({ contacts }) {
         >
           <GeoJSON
             data={PR_GEO}
-            style={{ color: '#0B7A5C', weight: 2, fillColor: '#0B7A5C', fillOpacity: 0.08 }}
+            style={{ color: '#1F5F3A', weight: 2.4, fillOpacity: 0 }}
           />
+          <MunicipiosLayer contacts={contacts} />
           {markers.map((m) => {
             const html = m.items
               .map(

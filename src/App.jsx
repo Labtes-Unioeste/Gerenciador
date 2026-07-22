@@ -4,7 +4,7 @@ import Hero from './components/Hero.jsx'
 import StatsBar from './components/StatsBar.jsx'
 import ProgressBar from './components/ProgressBar.jsx'
 import MapPanel from './components/MapPanel.jsx'
-import FeaturedList from './components/FeaturedList.jsx'
+import MapCategoryFilter from './components/MapCategoryFilter.jsx'
 import Filters from './components/Filters.jsx'
 import Tabs from './components/Tabs.jsx'
 import SectionTable from './components/SectionTable.jsx'
@@ -34,6 +34,7 @@ export default function App() {
   const [prio, setPrio] = useState('Todas')
   const [doneF, setDoneF] = useState('Todas')
   const [navOpen, setNavOpen] = useState(false)
+  const [mapCat, setMapCat] = useState(null)
 
   const filters = { q: q.toLowerCase().trim(), prio, doneF, estado }
   // contatos filtrados (usado por mapa, destaques e reports)
@@ -47,6 +48,11 @@ export default function App() {
     SECTION_TABS.forEach((k) => (c[k] = DATA[k].rows.length))
     return c
   }, [])
+
+  const mapFiltered = useMemo(
+    () => (mapCat ? filtered.filter((c) => c.tab === mapCat) : filtered),
+    [filtered, mapCat]
+  )
 
   const onSelect = (value) => {
     if (!value) return
@@ -105,21 +111,12 @@ export default function App() {
           <Filters prio={prio} doneF={doneF} onPrio={setPrio} onDone={setDoneF} onClear={onClear} canClear={canClear} />
 
           <div className="split" id="map">
-            <MapPanel contacts={filtered} />
+            <MapPanel contacts={mapFiltered} />
             <div className="feat">
               <div className="hd">
-                <b>Contatos em destaque</b>
-                <a
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault()
-                    onSelect('informacoes')
-                  }}
-                >
-                  Ver todos
-                </a>
+                <b>Categorias</b>
               </div>
-              <FeaturedList contacts={filtered} />
+              <MapCategoryFilter counts={counts} active={mapCat} onSelect={setMapCat} />
             </div>
           </div>
 
