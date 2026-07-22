@@ -18,8 +18,31 @@ jobs:
           command_timeout: 20m
           script: |
             set -e
-            APP_DIR="/var/www/fertilizantes"
+            DOMAIN="fertilizantes.labtes.com.br"
             REPO_URL="https://github.com/Labtes-Unioeste/Gerenciador.git"
+            FALLBACK_DIR="/var/www/fertilizantes"
+
+            echo "=== Descobrindo configuracao real do Nginx para $DOMAIN ==="
+            NGINX_CONF_FILE=$(grep -rl "$DOMAIN" /etc/nginx/sites-enabled/ 2>/dev/null | head -1 || true)
+            EXISTING_ROOT=""
+            if [ -n "$NGINX_CONF_FILE" ]; then
+              echo "Config encontrada: $NGINX_CONF_FILE"
+              EXISTING_ROOT=$(grep -m1 -E "^\s*root\s+" "$NGINX_CONF_FILE" | awk '{print $2}' | tr -d ';' || true)
+              echo "Root atual: $EXISTING_ROOT"
+            else
+              echo "Nenhuma config de Nginx encontrada para $DOMAIN em sites-enabled."
+            fi
+
+            if [ -n "$EXISTING_ROOT" ]; then
+              if [ "$(basename "$EXISTING_ROOT")" = "dist" ]; then
+                APP_DIR="$(dirname "$EXISTING_ROOT")"
+              else
+                APP_DIR="$EXISTING_ROOT"
+              fi
+            else
+              APP_DIR="$FALLBACK_DIR"
+            fi
+            echo "=== Usando APP_DIR: $APP_DIR ==="
 
             mkdir -p "$APP_DIR"
 
@@ -33,7 +56,6 @@ jobs:
               cd "$APP_DIR"
             fi
 
-            # Garante Node.js 20+ instalado
             if ! command -v npm >/dev/null 2>&1 || [ "$(node -v | cut -d. -f1 | tr -d v)" -lt 20 ] 2>/dev/null; then
               curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
               apt-get install -y nodejs
@@ -42,8 +64,8 @@ jobs:
             npm install
             npm run build
 
-            # Configura o Nginx na primeira execução, se ainda não existir
-            if [ ! -f /etc/nginx/sites-available/fertilizantes ]; then
+            if [ -z "$NGINX_CONF_FILE" ]; then
+              echo "=== Criando nova configuracao Nginx (nenhuma existia) ==="
               cat > /etc/nginx/sites-available/fertilizantes <<'NGINX_CONF'
             server {
                 listen 80;
@@ -57,9 +79,13 @@ jobs:
             }
             NGINX_CONF
               ln -sf /etc/nginx/sites-available/fertilizantes /etc/nginx/sites-enabled/fertilizantes
+            else
+              echo "=== Config existente mantida, root ja aponta para $EXISTING_ROOT ==="
             fi
 
             nginx -t
             systemctl reload nginx
 
-            echo "Deploy concluido: $(date)"
+            echo "=== Deploy concluido em $(date) ==="
+            echo "APP_DIR final: $APP_DIR"
+            ls -la "$APP_DIR/dist" | head -5
