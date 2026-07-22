@@ -419,8 +419,8 @@ footer {
 }
 footer .fgrid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 30px; }
 footer .fbrand-logo {
-  display: inline-block; height: 44px; width: auto; max-width: 240px; object-fit: contain;
-  background: #fff; border-radius: 10px; padding: 8px 14px; margin-bottom: 16px;
+  display: inline-block; height: 68px; width: auto; max-width: 320px; object-fit: contain;
+  background: #fff; border-radius: 12px; padding: 12px 20px; margin-bottom: 0;
 }
 footer .fbrand b { font-size: 16px; color: #fff; font-weight: 700; }
 footer .fbrand p { font-size: 13px; color: #aecdba; margin-top: 10px; line-height: 1.6; }

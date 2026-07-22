@@ -14,14 +14,6 @@ export default function Footer() {
       <div className="fgrid">
         <div className="fbrand">
           <img className="fbrand-logo" src="/logo-tecfert-v2.png" alt="Rede TecFert do Paraná" />
-          <b>
-            <ICONS.Leaf size={16} strokeWidth={2} style={{ verticalAlign: '-2px', marginRight: 6 }} />
-            Rede de Fertilizantes do Paraná
-          </b>
-          <p>
-            Conectando empresas, pesquisadores, universidades e redes que impulsionam a
-            inovação e o desenvolvimento sustentável do agronegócio paranaense.
-          </p>
         </div>
         <div>
           <h4>Navegação</h4>
