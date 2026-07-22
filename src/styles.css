@@ -68,14 +68,22 @@ a:hover { text-decoration: underline; }
 /* ---------- TOP NAV (menu no topo) ---------- */
 .topnav {
   position: sticky; top: 0; z-index: 40;
-  display: flex; align-items: center; gap: 18px;
   background: rgba(255,255,255,0.82);
   backdrop-filter: blur(14px) saturate(140%);
   -webkit-backdrop-filter: blur(14px) saturate(140%);
   border-bottom: 1px solid rgba(31,95,58,0.12);
-  padding: 0 24px; height: 66px;
+  height: 66px;
   box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 8px 24px rgba(31,95,58,0.08);
 }
+.topnav .tn-inner {
+  display: flex; align-items: center; gap: 18px; height: 100%;
+  max-width: var(--maxw); width: 100%; margin: 0 auto; padding: 0 220px;
+}
+@media (max-width: 1600px) { .topnav .tn-inner { padding-left: 150px; padding-right: 150px; } }
+@media (max-width: 1440px) { .topnav .tn-inner { padding-left: 120px; padding-right: 120px; } }
+@media (max-width: 1100px) { .topnav .tn-inner { padding-left: 90px; padding-right: 90px; } }
+@media (max-width: 760px)  { .topnav .tn-inner { padding-left: 56px; padding-right: 56px; } }
+@media (max-width: 480px)  { .topnav .tn-inner { padding-left: 32px; padding-right: 32px; } }
 .topnav .tn-left { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
 .topnav .logo { display: flex; align-items: center; gap: 11px; }
 .topnav .logo-img { height: auto; width: auto; display: block; max-height: 160px; max-width: 680px; object-fit: contain; }
