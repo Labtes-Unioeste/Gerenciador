@@ -291,6 +291,7 @@ a:hover { text-decoration: underline; }
   background: #fff; border: 1px solid var(--borda); border-radius: var(--radius);
   padding: 22px; box-shadow: none; display: flex; flex-direction: column; position: relative; overflow: visible;
 }
+.map-card--bare { background: none; border: none; padding: 0; }
 .map-card .hd { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
 .map-card .hd h2 { font-size: 18px; font-weight: 700; color: var(--verde-escuro); display: flex; align-items: center; gap: 9px; }
 .map-card .hd .pin { color: var(--verde-medio); }
@@ -300,7 +301,7 @@ a:hover { text-decoration: underline; }
 }
 .map-card .full:hover { background: var(--verde-claro); color: #fff; }
 .map-card .sub { font-size: 13px; color: var(--muted); margin-bottom: 14px; }
-#map { height: 520px; border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--borda); background: #F8FAF8; }
+#map { height: 520px; border-radius: var(--radius-sm); overflow: hidden; border: none; background: #F8FAF8; }
 .map-legend { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center; }
 .map-legend b { font-size: 12.5px; color: var(--txt); margin-right: 4px; }
 .map-legend .li { font-size: 12.5px; color: var(--muted); display: inline-flex; align-items: center; gap: 8px; }

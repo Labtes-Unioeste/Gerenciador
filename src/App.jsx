@@ -108,8 +108,6 @@ export default function App() {
         <div className="content content-home">
           <Hero />
 
-          <Filters prio={prio} doneF={doneF} onPrio={setPrio} onDone={setDoneF} onClear={onClear} canClear={canClear} />
-
           <div className="map-section" id="map">
             <MapPanel contacts={mapFiltered} />
             <MapCategoryFilter counts={counts} active={mapCat} onSelect={setMapCat} />

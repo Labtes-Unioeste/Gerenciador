@@ -1,11 +1,10 @@
-import { MapContainer, TileLayer, GeoJSON, Marker, Popup, Tooltip, useMap } from 'react-leaflet'
+import { MapContainer, GeoJSON, Marker, Popup, Tooltip, useMap } from 'react-leaflet'
 import { useEffect, useMemo } from 'react'
 import L from 'leaflet'
 import { PR_GEO } from '../data/prGeo.js'
 import { geoFor } from '../lib/geo.js'
 import { CAT } from '../data/cat.js'
 import { esc } from '../lib/format.js'
-import { ICONS } from '../lib/icons.js'
 import MunicipiosLayer from './MunicipiosLayer.jsx'
 
 const PR_CENTER = [-24.5, -51.5]
@@ -38,20 +37,6 @@ function FixSize() {
   return null
 }
 
-function FitBounds({ bounds }) {
-  const map = useMap()
-  useEffect(() => {
-    try {
-      const prBounds = L.geoJSON(PR_GEO).getBounds()
-      const all = L.latLngBounds(bounds)
-      map.fitBounds(prBounds.extend(all), { padding: [30, 30], maxZoom: 11, animate: true })
-    } catch {
-      map.fitBounds(bounds, { padding: [40, 40], maxZoom: 11, animate: true })
-    }
-  }, [bounds, map])
-  return null
-}
-
 export default function MapPanel({ contacts }) {
   const markers = useMemo(() => {
     const seen = {}
@@ -71,35 +56,22 @@ export default function MapPanel({ contacts }) {
     return out
   }, [contacts])
 
-  const bounds = markers.map((m) => m.coord)
-
   return (
-    <div className="map-card">
-      <div className="hd">
-        <h2>
-          <span className="pin">
-            <ICONS.MapPin size={18} strokeWidth={2.2} />
-          </span>{' '}
-          Mapa do Paraná
-        </h2>
-        <span
-          className="full"
-          onClick={() => {
-            const el = document.getElementById('map')
-            if (el?.requestFullscreen) el.requestFullscreen()
-            else if (el?.webkitRequestFullscreen) el.webkitRequestFullscreen()
-          }}
-        >
-          <ICONS.Maximize2 size={14} strokeWidth={2.2} /> Tela cheia
-        </span>
-      </div>
-      <div className="sub">Localize fornecedores e informações por região do estado.</div>
+    <div className="map-card map-card--bare">
       <div id="map" style={{ position: 'relative' }}>
         <div className="map-compass" aria-hidden="true">N</div>
         <MapContainer
           center={PR_CENTER}
           zoom={PR_ZOOM}
-          scrollWheelZoom={true}
+          minZoom={PR_ZOOM}
+          maxZoom={PR_ZOOM}
+          scrollWheelZoom={false}
+          dragging={false}
+          doubleClickZoom={false}
+          touchZoom={false}
+          boxZoom={false}
+          keyboard={false}
+          zoomControl={false}
           attributionControl={false}
           style={{ height: '100%', width: '100%' }}
         >
@@ -134,7 +106,6 @@ export default function MapPanel({ contacts }) {
             )
           })}
           <FixSize />
-          <FitBounds bounds={bounds} />
         </MapContainer>
       </div>
     </div>
