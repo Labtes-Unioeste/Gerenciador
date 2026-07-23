@@ -14,6 +14,7 @@ export default function PerfilInstituicao({ instituicaoId, onBack, onEditCrm }) 
   const [esp, setEsp] = useState([])
   const [con, setCon] = useState([])
   const [tim, setTim] = useState([])
+  const [recom, setRecom] = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -27,6 +28,9 @@ export default function PerfilInstituicao({ instituicaoId, onBack, onEditCrm }) 
         supabase.from('timeline_eventos').select('id, titulo, descricao, created_at').eq('instituicao_id', instituicaoId).order('created_at', { ascending: false }),
       ])
       setInst(d1); setEsp(d2 || []); setCon(d3 || []); setTim(d4 || [])
+      // recomendacoes: mesma cidade ou tipo, exceto si
+      const { data: rec } = await supabase.from('instituicoes').select('id, nome, tipo, cidade').or(`tipo.eq.${d1?.tipo},cidade.eq.${d1?.cidade || ''}`).limit(8)
+      setRecom((rec || []).filter((r) => r.id !== instituicaoId))
       // resolver nomes das conexoes
       if (d3 && d3.length) {
         const ids = [...new Set(d3.flatMap((c) => [c.instituicao_origem_id, c.instituicao_destino_id]))]
@@ -89,6 +93,11 @@ export default function PerfilInstituicao({ instituicaoId, onBack, onEditCrm }) 
           <h3>Linha do tempo</h3>
           {tim.length === 0 ? <p className="perfil-empty">Sem eventos na linha do tempo.</p> :
             <ul className="perfil-timeline">{tim.map((t) => <li key={t.id}><span className="tl-date">{fmtDate(t.created_at)}</span><b>{t.titulo}</b>{t.descricao ? ` — ${t.descricao}` : ''}</li>)}</ul>}
+        </section>
+        <section className="perfil-card perfil-card-wide">
+          <h3>Recomendações automáticas</h3>
+          {recom.length === 0 ? <p className="perfil-empty">Sem recomendações no momento.</p> :
+            <div className="perfil-tags">{recom.map((r) => <span key={r.id} className="perfil-tag" onClick={() => window.__abrirPerfil && window.__abrirPerfil(r.id)} style={{ cursor: 'pointer' }}>{r.nome} <small>({[r.tipo, r.cidade].filter(Boolean).join(' · ')})</small></span>)}</div>}
         </section>
       </div>
     </div>

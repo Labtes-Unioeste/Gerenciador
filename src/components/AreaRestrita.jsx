@@ -11,6 +11,8 @@ import CrmRede from './CrmRede.jsx'
 import { Contact } from 'lucide-react'
 import GrafoRede from './GrafoRede.jsx'
 import { Share2 } from 'lucide-react'
+import MatchRede from './MatchRede.jsx'
+import { Sparkles } from 'lucide-react'
 
 const TABS = [
   { key: 'especialidades', label: 'Especialidades', icon: Layers, comp: Especialidades },
@@ -19,6 +21,7 @@ const TABS = [
   { key: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, comp: DashboardRede },
   { key: 'crm', label: 'CRM da Rede', icon: Contact, comp: CrmRede },
   { key: 'grafo', label: 'Rede TecFert', icon: Share2, comp: GrafoRede },
+  { key: 'match', label: 'Match', icon: Sparkles, comp: MatchRede },
 ]
 
 export default function AreaRestrita({ user, onLogout }) {
