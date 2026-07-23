@@ -894,17 +894,11 @@ footer .copy { margin-top: 28px; padding-top: 18px; border-top: 1px solid rgba(2
   overflow: hidden;
   min-height: 520px;
   box-shadow: var(--shadow-md);
-}
-.restrita-hero-bg {
-  position: absolute;
-  inset: 0;
-  background-image: url("/hero-restrita.png");
-  background-color: var(--verde-escuro);
+  background-image: url("/hero-restrita-seguranca.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  z-index: 1;
-  filter: saturate(1.1) contrast(1.05) brightness(1.0);
+  image-rendering: -webkit-optimize-contrast;
 }
 .restrita-hero::after {
   content: "";
