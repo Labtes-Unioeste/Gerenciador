@@ -885,24 +885,74 @@ footer .copy { margin-top: 28px; padding-top: 18px; border-top: 1px solid rgba(2
 
 /* ---------- Area restrita (pos-login) ---------- */
 .content-restrita { padding-top: 20px; }
+
+/* Hero da area restrita */
 .restrita-wrap { max-width: 760px; margin: 0 auto 30px; }
 .restrita-head {
-  background: linear-gradient(135deg, var(--verde-escuro), var(--verde-medio));
-  border-radius: var(--radius); padding: 34px 32px; color: #fff; text-align: left;
-  box-shadow: var(--shadow-md); position: relative;
+  position: relative;
+  background-image: url("/hero-restrita.png");
+  background-color: var(--verde-escuro);
+  background-size: cover;
+  background-position: center;
+  border-radius: var(--radius) var(--radius) 0 0;
+  padding: 34px 32px 40px;
+  color: #fff;
+  text-align: left;
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
 }
-.restrita-head h2 { font-size: 24px; font-weight: 800; margin: 10px 0 8px; }
-.restrita-head p { font-size: 14px; color: rgba(255,255,255,0.88); max-width: 520px; }
+.restrita-head::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(31,95,58,0.82) 0%, rgba(31,95,58,0.45) 42%, rgba(31,95,58,0.0) 70%),
+    linear-gradient(180deg, rgba(35,24,4,0.05) 0%, rgba(35,24,4,0.38) 100%);
+}
+.restrita-head > * { position: relative; z-index: 2; }
+.restrita-head h2 {
+  font-size: 24px;
+  font-weight: 800;
+  margin: 10px 0 8px;
+  color: rgb(255, 255, 255);
+  font-family: "Manrope", sans-serif;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.45);
+  line-height: 1.15;
+}
+.restrita-head p {
+  font-size: 15px;
+  color: rgba(255,255,255,0.92);
+  max-width: 560px;
+  line-height: 1.6;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.35);
+  margin: 0;
+}
 .restrita-logout {
-  position: absolute; top: 28px; right: 28px; padding: 9px 16px; font-size: 13px;
+  position: absolute;
+  top: 28px;
+  right: 28px;
+  padding: 9px 16px;
+  font-size: 13px;
+  background: rgba(255,255,255,0.14);
+  color: #fff;
+  border-color: rgba(255,255,255,0.5);
+  backdrop-filter: blur(6px);
 }
 .restrita-placeholder {
-  margin-top: 22px; background: #fff; border: 1px solid var(--borda); border-radius: var(--radius-sm);
-  padding: 26px; text-align: center;
+  margin-top: 22px;
+  background: #fff;
+  border: 1px solid var(--borda);
+  border-top: none;
+  border-radius: 0 0 var(--radius) var(--radius);
+  padding: 26px;
+  text-align: center;
 }
 .restrita-placeholder p { font-size: 13.5px; color: var(--muted); line-height: 1.6; margin: 0; }
 
-@media (max-width: 640px) {
+@media (max-width: 760px) {
   .restrita-logout { position: static; margin-top: 16px; }
 }
 
