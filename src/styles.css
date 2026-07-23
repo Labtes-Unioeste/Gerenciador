@@ -1068,24 +1068,63 @@ footer .copy { margin-top: 28px; padding-top: 18px; border-top: 1px solid rgba(2
 .crm-hist-date { font-weight: 700; color: var(--verde-escuro); margin-right: 6px; }
 
 /* ===== Grafo da Rede ===== */
-.grafo { display: flex; flex-direction: column; gap: 14px; }
+.grafo { display: flex; flex-direction: column; gap: 14px; position: relative; }
 .grafo-toolbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
 .grafo-filtros { display: flex; gap: 8px; flex-wrap: wrap; }
 .grafo-chip { background: #fff; border: 1px solid var(--borda); border-radius: 20px; padding: 6px 14px; font-size: 13px; font-weight: 600; color: var(--muted); cursor: pointer; transition: all .18s var(--ease); }
 .grafo-chip:hover { color: var(--verde-escuro); }
 .grafo-chip.active { background: var(--verde-escuro); color: #fff; border-color: var(--verde-escuro); }
-.grafo-stats { font-size: 13px; color: var(--muted); }
-.grafo-canvas-wrap { position: relative; border: 1px solid var(--borda); border-radius: 22px; overflow: hidden; background: linear-gradient(180deg, #fbfdfb, #f4f8f4); }
-.grafo-canvas { display: block; width: 100%; height: 560px; cursor: grab; }
+.grafo-stats { font-size: 13px; color: var(--muted); white-space: nowrap; }
+
+.grafo-search { position: relative; display: flex; align-items: center; gap: 8px; background: #fff; border: 1px solid var(--borda); border-radius: 20px; padding: 8px 14px; flex: 1; max-width: 320px; color: var(--muted); }
+.grafo-search input { border: 0; outline: none; font-family: "Manrope", sans-serif; font-size: 13px; flex: 1; color: var(--txt); }
+.grafo-search-list { position: absolute; top: calc(100% + 6px); left: 0; right: 0; background: #fff; border: 1px solid var(--borda); border-radius: 14px; box-shadow: var(--shadow-sm); overflow: hidden; z-index: 5; }
+.grafo-search-list button { display: flex; flex-direction: column; align-items: flex-start; gap: 1px; width: 100%; text-align: left; background: #fff; border: 0; border-bottom: 1px solid var(--borda); padding: 9px 13px; cursor: pointer; }
+.grafo-search-list button:last-child { border-bottom: 0; }
+.grafo-search-list button:hover { background: var(--verde-suave); }
+.grafo-search-list span { font-size: 13px; font-weight: 600; color: var(--txt); }
+.grafo-search-list small { font-size: 11.5px; color: var(--muted); }
+
+.grafo-canvas-wrap {
+  position: relative; border: 1px solid #232b33; border-radius: 22px; overflow: hidden;
+  background:
+    radial-gradient(circle, rgba(255,255,255,0.055) 1px, transparent 1.3px) 0 0 / 22px 22px,
+    #12181e;
+  box-shadow: 0 18px 40px -22px rgba(0,0,0,0.5);
+}
+.grafo-canvas { display: block; width: 100%; height: 600px; cursor: grab; }
 .grafo-canvas:active { cursor: grabbing; }
-.grafo-loading, .grafo-hint { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 14px; pointer-events: none; text-align: center; padding: 20px; }
-.grafo-legend { display: flex; gap: 16px; flex-wrap: wrap; }
-.grafo-leg { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--txt); text-transform: capitalize; }
-.grafo-leg .dot { width: 12px; height: 12px; border-radius: 3px; }
-.grafo-sel { background: #fff; border: 1px solid var(--borda); border-radius: 16px; padding: 14px 18px; display: flex; flex-direction: column; gap: 3px; }
-.grafo-sel b { color: var(--verde-escuro); font-size: 15px; }
-.grafo-sel span { font-size: 13px; color: var(--muted); }
+.grafo-loading, .grafo-hint { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #9aa6b0; font-size: 14px; pointer-events: none; text-align: center; padding: 20px; }
+
+.grafo-legend { display: flex; flex-wrap: wrap; gap: 10px 26px; justify-content: space-between; }
+.grafo-leg-group { display: flex; gap: 16px; flex-wrap: wrap; }
+.grafo-leg { display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--txt); }
+.grafo-leg .dot { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
+.grafo-leg .ring { width: 11px; height: 11px; border-radius: 50%; border: 2px solid; background: #fff; flex-shrink: 0; }
 .grafo-tip { font-size: 12px; color: var(--muted); margin: 0; }
+
+.grafo-drawer {
+  position: absolute; top: 0; right: 0; width: 320px; max-width: 88vw; height: 100%;
+  background: #fff; border-left: 1px solid var(--borda); border-radius: 0 22px 22px 0;
+  box-shadow: -18px 0 40px -26px rgba(0,0,0,0.35);
+  padding: 20px; overflow-y: auto; z-index: 8;
+  animation: grafoDrawerIn .22s var(--ease);
+}
+@keyframes grafoDrawerIn { from { transform: translateX(16px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+.grafo-drawer-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.grafo-drawer-head > div { display: flex; gap: 6px; flex-wrap: wrap; }
+.grafo-drawer-close { background: transparent; border: 0; color: var(--muted); cursor: pointer; padding: 2px; line-height: 0; }
+.grafo-drawer-close:hover { color: var(--verde-escuro); }
+.grafo-drawer h3 { margin: 10px 0 2px; font-size: 18px; color: var(--verde-escuro); }
+.grafo-drawer-sub { font-size: 13px; color: var(--muted); margin-bottom: 10px; }
+.grafo-drawer-contatos { display: flex; flex-direction: column; gap: 3px; margin-bottom: 10px; }
+.grafo-drawer-contatos a, .grafo-drawer-contatos span { font-size: 13px; color: var(--verde-medio); text-decoration: none; }
+.grafo-drawer-desc { font-size: 13.5px; color: var(--txt); line-height: 1.55; margin: 0 0 14px; }
+.grafo-drawer-section { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--borda); }
+.grafo-drawer-section h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--verde-medio); margin: 0 0 8px; }
+.grafo-drawer-meta { font-size: 13px; color: var(--txt); margin-top: 14px; }
+.grafo-drawer-perfil { width: 100%; margin-top: 18px; }
+@media (max-width: 720px) { .grafo-drawer { width: 100%; border-radius: 0; } }
 
 /* ===== Perfil da Instituicao ===== */
 .content-perfil { max-width: 1100px; margin: 0 auto; }
