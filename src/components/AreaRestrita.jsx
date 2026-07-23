@@ -9,6 +9,8 @@ import DashboardRede from './DashboardRede.jsx'
 import { LayoutDashboard } from 'lucide-react'
 import CrmRede from './CrmRede.jsx'
 import { Contact } from 'lucide-react'
+import GrafoRede from './GrafoRede.jsx'
+import { Share2 } from 'lucide-react'
 
 const TABS = [
   { key: 'especialidades', label: 'Especialidades', icon: Layers, comp: Especialidades },
@@ -16,6 +18,7 @@ const TABS = [
   { key: 'timeline', label: 'Timeline', icon: CalendarClock, comp: TimelineEventos },
   { key: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, comp: DashboardRede },
   { key: 'crm', label: 'CRM da Rede', icon: Contact, comp: CrmRede },
+  { key: 'grafo', label: 'Rede TecFert', icon: Share2, comp: GrafoRede },
 ]
 
 export default function AreaRestrita({ user, onLogout }) {
