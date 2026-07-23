@@ -1119,3 +1119,14 @@ footer .copy { margin-top: 28px; padding-top: 18px; border-top: 1px solid rgba(2
 .match-reasons { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
 .match-reasons li { font-size: 12.5px; color: var(--muted); line-height: 1.45; padding-left: 12px; position: relative; }
 .match-reasons li::before { content: '✔'; position: absolute; left: 0; color: var(--verde-medio); }
+/* ===== Busca Inteligente ===== */
+.busca { display: flex; flex-direction: column; gap: 18px; }
+.busca-input { font-size: 16px; padding: 14px 16px; }
+.busca-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+@media (max-width: 760px) { .busca-cols { grid-template-columns: 1fr; } }
+.busca-col h3 { font-size: 15px; font-weight: 700; color: var(--verde-escuro); margin-bottom: 10px; }
+.busca-item { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; text-align: left; background: #fff; border: 1px solid var(--borda); border-radius: 14px; padding: 11px 13px; cursor: pointer; margin-bottom: 8px; transition: all .18s var(--ease); }
+.busca-item:hover { border-color: var(--verde-medio); }
+.busca-nome { font-weight: 600; font-size: 14px; color: var(--txt); }
+.inst-multi { display: flex; flex-direction: column; gap: 8px; }
+.inst-chips { display: flex; flex-wrap: wrap; gap: 6px; }

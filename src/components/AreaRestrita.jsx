@@ -13,6 +13,9 @@ import GrafoRede from './GrafoRede.jsx'
 import { Share2 } from 'lucide-react'
 import MatchRede from './MatchRede.jsx'
 import { Sparkles } from 'lucide-react'
+import BuscaInteligente from './BuscaInteligente.jsx'
+import ProjetosColaborativos from './ProjetosColaborativos.jsx'
+import { Search, FolderKanban } from 'lucide-react'
 
 const TABS = [
   { key: 'especialidades', label: 'Especialidades', icon: Layers, comp: Especialidades },
@@ -22,6 +25,8 @@ const TABS = [
   { key: 'crm', label: 'CRM da Rede', icon: Contact, comp: CrmRede },
   { key: 'grafo', label: 'Rede TecFert', icon: Share2, comp: GrafoRede },
   { key: 'match', label: 'Match', icon: Sparkles, comp: MatchRede },
+  { key: 'busca', label: 'Busca', icon: Search, comp: BuscaInteligente },
+  { key: 'projetos', label: 'Projetos', icon: FolderKanban, comp: ProjetosColaborativos },
 ]
 
 export default function AreaRestrita({ user, onLogout }) {
