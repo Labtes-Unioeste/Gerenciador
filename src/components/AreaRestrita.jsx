@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { ShieldCheck, LogOut, Layers, Network, CalendarClock } from 'lucide-react'
+import { ShieldCheck, LogOut, Layers, Network, CalendarClock, Building2 } from 'lucide-react'
 import { supabase } from '../lib/supabase.js'
+import Instituicoes from './Instituicoes.jsx'
 import Especialidades from './Especialidades.jsx'
 import Conexoes from './Conexoes.jsx'
 import TimelineEventos from './TimelineEventos.jsx'
@@ -18,6 +19,7 @@ import ProjetosColaborativos from './ProjetosColaborativos.jsx'
 import { Search, FolderKanban } from 'lucide-react'
 
 const TABS = [
+  { key: 'instituicoes', label: 'Instituições', icon: Building2, comp: Instituicoes },
   { key: 'especialidades', label: 'Especialidades', icon: Layers, comp: Especialidades },
   { key: 'conexoes', label: 'Conexões', icon: Network, comp: Conexoes },
   { key: 'timeline', label: 'Timeline', icon: CalendarClock, comp: TimelineEventos },
@@ -30,12 +32,12 @@ const TABS = [
 ]
 
 export default function AreaRestrita({ user, onLogout }) {
-  const [tab, setTab] = useState('especialidades')
+  const [tab, setTab] = useState('instituicoes')
   const handleLogout = async () => {
     await supabase.auth.signOut()
     onLogout?.()
   }
-  const Active = TABS.find((t) => t.key === tab)?.comp || Especialidades
+  const Active = TABS.find((t) => t.key === tab)?.comp || Instituicoes
 
   return (
     <motion.div
