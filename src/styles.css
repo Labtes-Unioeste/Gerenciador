@@ -1004,6 +1004,10 @@ footer .copy { margin-top: 28px; padding-top: 18px; border-top: 1px solid rgba(2
 .inst-nome { font-weight: 600; color: var(--txt); font-size: 14px; }
 .inst-meta { color: var(--muted); font-size: 12px; }
 .inst-empty { padding: 16px; color: var(--muted); text-align: center; font-size: 13px; }
+.inst-opt-create { border-top: 1px dashed var(--borda); color: var(--verde-medio); font-weight: 600; }
+.inst-opt-create .inst-nome { color: var(--verde-medio); }
+.inst-opt-create:hover { background: var(--verde-suave); }
+.inst-opt-create:disabled { opacity: .6; cursor: default; }
 
 /* ===== Dashboard da Rede ===== */
 .dash { display: flex; flex-direction: column; gap: 24px; }

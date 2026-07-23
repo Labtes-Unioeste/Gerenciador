@@ -59,9 +59,9 @@ export default function Conexoes() {
       <form className="crud-form" onSubmit={handleSubmit}>
         <h3>{editId ? 'Editar conexão' : 'Nova conexão'}</h3>
         <label>Instituição de origem</label>
-        <InstitutionSelect value={origemId} onChange={setOrigemId} placeholder="Buscar origem…" />
+        <InstitutionSelect value={origemId} onChange={setOrigemId} placeholder="Buscar origem…" creatableTipo="pesquisador" />
         <label>Instituição de destino</label>
-        <InstitutionSelect value={destinoId} onChange={setDestinoId} placeholder="Buscar destino…" />
+        <InstitutionSelect value={destinoId} onChange={setDestinoId} placeholder="Buscar destino…" creatableTipo="pesquisador" />
         <label>Tipo de conexão</label>
         <select value={tipo} onChange={(e) => setTipo(e.target.value)}>
           <option value="parceria">Parceria</option>
