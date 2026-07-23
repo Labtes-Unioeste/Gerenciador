@@ -1019,3 +1019,28 @@ footer .copy { margin-top: 28px; padding-top: 18px; border-top: 1px solid rgba(2
 .scale-dot { width: 11px; height: 11px; border-radius: 50%; }
 .scale-item b { color: var(--verde-escuro); }
 
+/* ===== CRM da Rede ===== */
+.crm { display: grid; grid-template-columns: 360px 1fr; gap: 24px; align-items: start; }
+@media (max-width: 900px) { .crm { grid-template-columns: 1fr; } }
+.crm-list { display: flex; flex-direction: column; gap: 10px; }
+.crm-items { max-height: 620px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; }
+.crm-item { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; text-align: left; background: #fff; border: 1px solid var(--borda); border-radius: 14px; padding: 11px 13px; cursor: pointer; transition: all .18s var(--ease); }
+.crm-item:hover { border-color: var(--verde-medio); }
+.crm-item.active { border-color: var(--verde-escuro); box-shadow: 0 0 0 3px rgba(31,95,58,.1); }
+.crm-item-nome { font-weight: 600; font-size: 14px; color: var(--txt); }
+.crm-badge { font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 20px; }
+.st-nao_iniciado { background: #eceeec; color: #5b6b62; }
+.st-primeiro_contato, .st-email_enviado { background: #fff4d6; color: #8a5a00; }
+.st-reuniao_agendada, .st-em_negociacao, .st-interesse_confirmado { background: #e4f0e8; color: #1F5F3A; }
+.st-projeto_em_construcao { background: #dbeefb; color: #155e9c; }
+.st-parceiro_ativo { background: #1F5F3A; color: #fff; }
+.crm-detail .crud-form { position: static; }
+.crm-meta { color: var(--muted); font-size: 13px; margin-bottom: 14px; }
+.crm-hist { margin-top: 22px; border-top: 1px solid var(--borda); padding-top: 16px; }
+.crm-hist h4 { font-size: 14px; font-weight: 700; color: var(--verde-escuro); margin-bottom: 10px; }
+.crm-hist-empty { color: var(--muted); font-size: 13px; }
+.crm-hist ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.crm-hist li { font-size: 13px; color: var(--txt); line-height: 1.5; padding-left: 14px; position: relative; }
+.crm-hist li::before { content: ''; position: absolute; left: 0; top: 7px; width: 7px; height: 7px; border-radius: 50%; background: var(--verde-medio); }
+.crm-hist-date { font-weight: 700; color: var(--verde-escuro); margin-right: 6px; }
+
