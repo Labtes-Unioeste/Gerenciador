@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import TopNav from './components/TopNav.jsx'
 import Hero from './components/Hero.jsx'
 import StatsBar from './components/StatsBar.jsx'
@@ -14,6 +14,9 @@ import Partners from './components/Partners.jsx'
 import Footer from './components/Footer.jsx'
 import Pillars from './components/Pillars.jsx'
 import Sobre from './components/Sobre.jsx'
+import Login from './components/Login.jsx'
+import AreaRestrita from './components/AreaRestrita.jsx'
+import { supabase } from './lib/supabase.js'
 import { DATA } from './data/contacts.js'
 import { useEstado } from './hooks/useEstado.js'
 import { getFilteredContacts } from './hooks/useFilters.js'
@@ -35,6 +38,19 @@ export default function App() {
   const [doneF, setDoneF] = useState('Todas')
   const [navOpen, setNavOpen] = useState(false)
   const [mapCat, setMapCat] = useState(null)
+  const [session, setSession] = useState(null)
+  const [authChecked, setAuthChecked] = useState(false)
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      setSession(data.session)
+      setAuthChecked(true)
+    })
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, newSession) => {
+      setSession(newSession)
+    })
+    return () => listener.subscription.unsubscribe()
+  }, [])
 
   const filters = { q: q.toLowerCase().trim(), prio, doneF, estado }
   // contatos filtrados (usado por mapa, destaques e reports)
@@ -102,6 +118,15 @@ export default function App() {
       {tab === 'sobre' ? (
         <div className="content sobre-page">
           <Sobre />
+          <Footer />
+        </div>
+      ) : tab === 'restrita' ? (
+        <div className="content content-restrita">
+          {!authChecked ? null : session ? (
+            <AreaRestrita user={session.user} onLogout={() => onSelect('inicio')} />
+          ) : (
+            <Login onSuccess={() => {}} />
+          )}
           <Footer />
         </div>
       ) : tab === 'overview' ? (

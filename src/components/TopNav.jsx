@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { Lock } from 'lucide-react'
 
 const TABS = [
   { id: 'inicio', label: 'Início' },
@@ -39,6 +40,18 @@ export default function TopNav({ active, onSelect, open, onToggle }) {
               </motion.a>
             )
           })}
+          <motion.a
+            className={`tn-restrita ${active === 'restrita' ? 'active' : ''}`}
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.12, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            onClick={() => {
+              onSelect('restrita')
+              onToggle(false)
+            }}
+          >
+            <Lock size={14} strokeWidth={2.2} /> Área Restrita
+          </motion.a>
         </nav>
       </div>
     </header>
