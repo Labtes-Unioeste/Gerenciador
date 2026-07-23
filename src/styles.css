@@ -887,7 +887,7 @@ footer .copy { margin-top: 28px; padding-top: 18px; border-top: 1px solid rgba(2
 .content-restrita { padding-top: 20px; }
 
 /* Hero da area restrita */
-.restrita-wrap { max-width: 760px; margin: 0 auto 30px; }
+.restrita-wrap { max-width: 1100px; margin: 0 auto 30px; }
 .restrita-head {
   position: relative;
   background-image: url("/hero-restrita.png");
@@ -957,11 +957,6 @@ footer .copy { margin-top: 28px; padding-top: 18px; border-top: 1px solid rgba(2
 }
 
 /* ===== Area Restrita — dashboard de cadastros ===== */
-.restrita-wrap { max-width: 1100px; margin: 0 auto; }
-.restrita-head { position: relative; margin-bottom: 28px; }
-.restrita-head h2 { font-family: "Manrope", sans-serif; font-size: 34px; font-weight: 700; color: var(--verde-escuro); letter-spacing: -0.02em; line-height: 1.15; }
-.restrita-head p { color: var(--muted); max-width: 620px; margin: 10px 0 0; font-size: 16px; line-height: 1.6; }
-.restrita-logout { margin-top: 16px; }
 .restrita-tabs { display: flex; gap: 10px; flex-wrap: wrap; border-bottom: 1px solid var(--borda); margin-bottom: 28px; }
 .restrita-tab {
   display: inline-flex; align-items: center; gap: 8px;
