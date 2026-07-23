@@ -1,22 +1,36 @@
 import { MapContainer, GeoJSON, Marker, Popup, Tooltip, useMap } from 'react-leaflet'
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import L from 'leaflet'
 import { PR_GEO } from '../data/prGeo.js'
 import { geoFor } from '../lib/geo.js'
 import { CAT } from '../data/cat.js'
 import { esc } from '../lib/format.js'
 import MunicipiosLayer from './MunicipiosLayer.jsx'
+import { supabase } from '../lib/supabase.js'
 
 const PR_CENTER = [-24.5, -51.5]
 const PR_ZOOM = 7
 
-const MAP_ICON = L.divIcon({
-  className: 'pin-marker',
-  html: '<svg width="30" height="30" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#10b981" stroke="#065f46" stroke-width="1.2" d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7z"/><circle cx="12" cy="9" r="3" fill="#fff"/></svg>',
-  iconSize: [30, 30],
-  iconAnchor: [15, 30],
-  popupAnchor: [0, -26],
-})
+const STATUS_COR = {
+  parceiro_ativo: '#1F5F3A', projeto_em_construcao: '#155e9c',
+  interesse_confirmado: '#2E7D32', em_negociacao: '#B7791F',
+  reuniao_agendada: '#B7791F', primeiro_contato: '#B7791F',
+  email_enviado: '#9aa6a0', nao_iniciado: '#9aa6a0',
+}
+const STATUS_LABEL = {
+  parceiro_ativo: 'Parceiro ativo', projeto_em_construcao: 'Projeto em construção',
+  interesse_confirmado: 'Interesse confirmado', em_negociacao: 'Em negociação',
+  reuniao_agendada: 'Reunião agendada', primeiro_contato: 'Primeiro contato',
+  email_enviado: 'E-mail enviado', nao_iniciado: 'Não prospectado',
+}
+function pinIcon(status) {
+  const cor = STATUS_COR[status] || '#9aa6a0'
+  return L.divIcon({
+    className: 'pin-marker',
+    html: '<svg width="30" height="30" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="' + cor + '" stroke="#ffffff" stroke-width="1.4" d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7z"/><circle cx="12" cy="9" r="3" fill="#fff"/></svg>',
+    iconSize: [30, 30], iconAnchor: [15, 30], popupAnchor: [0, -26],
+  })
+}
 
 function FixSize() {
   const map = useMap()
@@ -38,6 +52,22 @@ function FixSize() {
 }
 
 export default function MapPanel({ contacts }) {
+  const [statusMap, setStatusMap] = useState({})
+  const [painel, setPainel] = useState(null)
+
+  useEffect(() => {
+    let active = true
+    ;(async () => {
+      const { data } = await supabase.from('instituicoes').select('nome, status_crm, pontuacao_maturidade, cidade')
+      if (active && data) {
+        const mm = {}
+        data.forEach((d) => { mm[(d.nome || '').trim().toLowerCase()] = d })
+        setStatusMap(mm)
+      }
+    })()
+    return () => { active = false }
+  }, [])
+
   const markers = useMemo(() => {
     const seen = {}
     const out = []
@@ -96,9 +126,19 @@ export default function MapPanel({ contacts }) {
               )
               .join('')
             const tip = esc(m.items[0].city || '') + (m.items.length > 1 ? ` (+${m.items.length - 1})` : '')
+            const first = m.items[0]
+            const sb = statusMap[(first && first.name || '').trim().toLowerCase()]
+            const status = (sb && sb.status_crm) || 'nao_iniciado'
             return (
-              <Marker key={m.coord.join(',')} position={m.coord} icon={MAP_ICON}>
-                <Popup>{<div dangerouslySetInnerHTML={{ __html: html }} />}</Popup>
+              <Marker key={m.coord.join(',')} position={m.coord} icon={pinIcon(status)}
+                eventHandlers={{ click: () => setPainel({ nome: first && first.name, cidade: first && first.city, status: status, mat: sb && sb.pontuacao_maturidade, inst: first && first.inst, cat: first && first.cat }) }}>
+                <Popup>
+                  <div className="map-pop">
+                    <strong>{m.items[0]?.name}</strong>
+                    <div className="map-pop-sub">{m.items[0]?.inst || m.items[0]?.city}</div>
+                    {m.items.length > 1 && <div className="map-pop-cnt">{m.items.length} contatos nesta cidade</div>}
+                  </div>
+                </Popup>
                 <Tooltip direction="top" offset={[0, -26]}>
                   {tip}
                 </Tooltip>
@@ -107,16 +147,16 @@ export default function MapPanel({ contacts }) {
           })}
           <FixSize />
         </MapContainer>
-      {painel && (
-        <div className="map-sidepanel">
-          <button className="map-sidepanel-x" onClick={() => setPainel(null)}>×</button>
-          <span className={'crm-badge st-' + (painel.status || 'nao_iniciado')}>{STATUS_LABEL[painel.status] || painel.status}</span>
-          <h3>{painel.nome}</h3>
-          <div className="map-sidepanel-sub">{[painel.cat, painel.cidade].filter(Boolean).join(' · ')}</div>
-          <div className="perfil-mat"><span>Maturidade</span><div className="mat-bar"><div className="mat-fill" style={{ width: (painel.mat || 5) + '%', background: (painel.mat||5)>=90?'#1F5F3A':(painel.mat||5)>=50?'#2E7D32':(painel.mat||5)>=15?'#B7791F':'#9aa6a0' }} /></div><b>{(painel.mat||5)}/100</b></div>
-          <p className="map-sidepanel-hint">Acesse a Área Restrita (cadeado) para ver o perfil completo, conexões e linha do tempo.</p>
-        </div>
-      )}
+        {painel && (
+          <div className="map-sidepanel">
+            <button className="map-sidepanel-x" onClick={() => setPainel(null)}>×</button>
+            <span className={'crm-badge st-' + (painel.status || 'nao_iniciado')}>{STATUS_LABEL[painel.status] || painel.status}</span>
+            <h3>{painel.nome}</h3>
+            <div className="map-sidepanel-sub">{[painel.cat, painel.cidade].filter(Boolean).join(' · ')}</div>
+            <div className="perfil-mat"><span>Maturidade</span><div className="mat-bar"><div className="mat-fill" style={{ width: (painel.mat || 5) + '%', background: (painel.mat||5)>=90?'#1F5F3A':(painel.mat||5)>=50?'#2E7D32':(painel.mat||5)>=15?'#B7791F':'#9aa6a0' }} /></div><b>{(painel.mat||5)}/100</b></div>
+            <p className="map-sidepanel-hint">Acesse a Área Restrita (cadeado) para ver o perfil completo, conexões e linha do tempo.</p>
+          </div>
+        )}
       </div>
     </div>
   )
