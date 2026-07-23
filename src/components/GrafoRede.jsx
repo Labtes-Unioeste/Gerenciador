@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from 'react'
-import { Search, X } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
+import { Search, X, Network } from 'lucide-react'
 import { supabase } from '../lib/supabase.js'
 import { STATUS_OPTS } from '../lib/crmOptions.js'
 
@@ -26,6 +27,7 @@ const STAGE_COR = { realizado: '#33C56F', pendente: '#9aa6b0', nunca: '#E8703A' 
 const STAGE_LABEL = { realizado: 'Contato realizado', pendente: 'Contato pendente', nunca: 'Nunca contatado' }
 
 export default function GrafoRede() {
+  const navigate = useNavigate()
   const canvasRef = useRef(null)
   const wrapRef = useRef(null)
   const [rows, setRows] = useState([])
@@ -466,8 +468,16 @@ export default function GrafoRede() {
             </div>
             <button className="grafo-drawer-close" onClick={() => setSel(null)} aria-label="Fechar"><X size={17} /></button>
           </div>
-          <h3>{sel.nome}</h3>
-          <div className="grafo-drawer-sub">{[TIPO_LABEL[sel.tipo] || sel.tipo, sel.cidade].filter(Boolean).join(' · ')}</div>
+
+          <div className="grafo-drawer-identity">
+            <div className="grafo-drawer-avatar" style={{ background: TIPO_COR[sel.tipo] || '#8aa0a6' }}>
+              {sel.nome.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0]?.toUpperCase()).join('')}
+            </div>
+            <div>
+              <h3>{sel.nome}</h3>
+              <div className="grafo-drawer-sub">{[TIPO_LABEL[sel.tipo] || sel.tipo, sel.cidade].filter(Boolean).join(' · ')}</div>
+            </div>
+          </div>
 
           {(sel.contato_email || sel.contato_telefone) && (
             <div className="grafo-drawer-contatos">
@@ -476,7 +486,15 @@ export default function GrafoRede() {
             </div>
           )}
 
-          {sel.descricao && <p className="grafo-drawer-desc">{sel.descricao}</p>}
+          {sel.descricao && <p className="grafo-drawer-desc grafo-drawer-clamp3">{sel.descricao}</p>}
+
+          <div className="grafo-drawer-count">
+            <Network size={14} strokeWidth={2} /> {conexoesDoSelecionado.length} conexão{conexoesDoSelecionado.length === 1 ? '' : 'ões'} na rede
+          </div>
+
+          <button className="btn btn-primary grafo-drawer-perfil" onClick={() => navigate(`/rede/perfil/${sel.id}`)}>
+            Ver perfil completo →
+          </button>
 
           <div className="grafo-drawer-section">
             <h4>Especialidades</h4>
@@ -496,10 +514,6 @@ export default function GrafoRede() {
           </div>
 
           {sel.responsavel && <div className="grafo-drawer-meta"><b>Responsável:</b> {sel.responsavel}</div>}
-
-          <button className="btn btn-primary grafo-drawer-perfil" onClick={() => window.__abrirPerfil && window.__abrirPerfil(sel.id)}>
-            Ver perfil completo →
-          </button>
         </div>
       )}
     </div>
