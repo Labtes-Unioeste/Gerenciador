@@ -302,6 +302,7 @@ a:hover { text-decoration: underline; }
 .map-card .full:hover { background: var(--verde-claro); color: #fff; }
 .map-card .sub { font-size: 13px; color: var(--muted); margin-bottom: 14px; }
 #map { height: 520px; border-radius: var(--radius-sm); overflow: hidden; border: none; background: #F8FAF8; }
+@media (max-width: 640px) { #map { height: 320px; } }
 .map-legend { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center; }
 .map-legend b { font-size: 12.5px; color: var(--txt); margin-right: 4px; }
 .map-legend .li { font-size: 12.5px; color: var(--muted); display: inline-flex; align-items: center; gap: 8px; }
@@ -972,6 +973,11 @@ footer .copy { margin-top: 28px; padding-top: 18px; border-top: 1px solid rgba(2
 }
 .restrita-tab:hover { color: var(--verde-escuro); }
 .restrita-tab.active { color: var(--verde-escuro); border-bottom-color: var(--verde-medio); }
+@media (max-width: 760px) {
+  .restrita-tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .restrita-tabs::-webkit-scrollbar { display: none; }
+  .restrita-tab { flex-shrink: 0; padding: 12px 14px; font-size: 14px; }
+}
 
 /* ===== CRUD screens ===== */
 .crud { display: grid; grid-template-columns: 380px 1fr; gap: 32px; align-items: start; }
@@ -1146,7 +1152,7 @@ footer .copy { margin-top: 28px; padding-top: 18px; border-top: 1px solid rgba(2
     #12181e;
   box-shadow: 0 18px 40px -22px rgba(0,0,0,0.5);
 }
-.grafo-canvas { display: block; width: 100%; height: 600px; cursor: grab; }
+.grafo-canvas { display: block; width: 100%; height: 600px; cursor: grab; touch-action: none; }
 .grafo-canvas:active { cursor: grabbing; }
 .grafo-loading, .grafo-hint { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #9aa6b0; font-size: 14px; pointer-events: none; text-align: center; padding: 20px; }
 
@@ -1156,6 +1162,11 @@ footer .copy { margin-top: 28px; padding-top: 18px; border-top: 1px solid rgba(2
 .grafo-leg .dot { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
 .grafo-leg .ring { width: 11px; height: 11px; border-radius: 50%; border: 2px solid; background: #fff; flex-shrink: 0; }
 .grafo-tip { font-size: 12px; color: var(--muted); margin: 0; }
+@media (max-width: 640px) {
+  .grafo-toolbar { flex-direction: column; align-items: stretch; }
+  .grafo-search { max-width: none; order: -1; }
+  .grafo-stats { white-space: normal; }
+}
 
 .grafo-drawer {
   position: absolute; top: 0; right: 0; width: 320px; max-width: 88vw; height: 100%;

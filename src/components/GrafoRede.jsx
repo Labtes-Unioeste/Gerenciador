@@ -26,6 +26,13 @@ function contatoStage(statusCrm) {
 const STAGE_COR = { realizado: '#33C56F', pendente: '#9aa6b0', nunca: '#E8703A' }
 const STAGE_LABEL = { realizado: 'Contato realizado', pendente: 'Contato pendente', nunca: 'Nunca contatado' }
 
+// Canvas mais baixo em telas estreitas — evita que o grafo domine a tela inteira no celular.
+function alturaCanvas(W) {
+  if (W < 480) return 380
+  if (W < 760) return 440
+  return 600
+}
+
 export default function GrafoRede() {
   const navigate = useNavigate()
   const canvasRef = useRef(null)
@@ -139,7 +146,7 @@ export default function GrafoRede() {
     if (!built.nodes.length) return
     const canvas = canvasRef.current
     const W = canvas?.parentElement?.clientWidth || 900
-    const H = 600
+    const H = alturaCanvas(W)
     const ns = layout(W, H)
     sim.current.nodes = ns
     sim.current.edges = built.edges
@@ -156,7 +163,7 @@ export default function GrafoRede() {
 
     const resize = () => {
       const W = canvas.parentElement ? canvas.parentElement.clientWidth : 900
-      const H = 600
+      const H = alturaCanvas(W)
       canvas.width = Math.max(1, W * dpr); canvas.height = Math.max(1, H * dpr)
       canvas.style.width = W + 'px'; canvas.style.height = H + 'px'
       const grew = !sim.current.W
@@ -303,35 +310,72 @@ export default function GrafoRede() {
     return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', resize) }
   }, [sel, built, layout])
 
-  // ---- interacao: drag, pan, zoom, hover ----
+  // ---- interacao: drag, pan, zoom, hover (mouse + touch) ----
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
+    const pointFrom = (e) => {
+      if (e.touches && e.touches.length) return e.touches[0]
+      if (e.changedTouches && e.changedTouches.length) return e.changedTouches[0]
+      return e
+    }
     const getPos = (e) => {
       const rect = canvas.getBoundingClientRect()
       const { zoom, panX, panY } = sim.current
-      return { x: (e.clientX - rect.left - panX) / zoom, y: (e.clientY - rect.top - panY) / zoom }
+      const p = pointFrom(e)
+      return { x: (p.clientX - rect.left - panX) / zoom, y: (p.clientY - rect.top - panY) / zoom }
     }
     const hitTest = (p) => sim.current.nodes.find((n) => {
       if (n._hidden) return false
       const r = n.id === TECFERT_ID ? 16 : (TIPO_RAIO[n.tipo] || 6)
       return Math.hypot(n.x - p.x, n.y - p.y) < r + 4
     })
+    const touchDist = (e) => {
+      const [a, b] = e.touches
+      return Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY)
+    }
+
     const onDown = (e) => {
+      if (e.touches && e.touches.length === 2) {
+        sim.current.pinching = true
+        sim.current.pinchStartDist = touchDist(e)
+        sim.current.pinchStartZoom = sim.current.zoom
+        sim.current.drag = null
+        sim.current.panning = false
+        return
+      }
       const p = getPos(e)
       const hit = hitTest(p)
       if (hit && hit.id !== TECFERT_ID) { sim.current.drag = hit; openNode(hit) }
-      else { sim.current.panning = true; sim.current.panStart = { x: e.clientX, y: e.clientY, px: sim.current.panX, py: sim.current.panY } }
+      else {
+        const pt = pointFrom(e)
+        sim.current.panning = true
+        sim.current.panStart = { x: pt.clientX, y: pt.clientY, px: sim.current.panX, py: sim.current.panY }
+      }
     }
     const onMove = (e) => {
       const s = sim.current
-      if (s.drag) { const p = getPos(e); s.drag.x = p.x; s.drag.y = p.y; s.drag.vx = 0; s.drag.vy = 0; return }
-      if (s.panning) { s.panX = s.panStart.px + (e.clientX - s.panStart.x); s.panY = s.panStart.py + (e.clientY - s.panStart.y); return }
+      if (e.touches && e.touches.length === 2 && s.pinching) {
+        if (e.cancelable) e.preventDefault()
+        const f = touchDist(e) / (s.pinchStartDist || 1)
+        s.zoom = Math.max(0.35, Math.min(3.2, s.pinchStartZoom * f))
+        return
+      }
+      if (s.drag) {
+        if (e.cancelable) e.preventDefault()
+        const p = getPos(e); s.drag.x = p.x; s.drag.y = p.y; s.drag.vx = 0; s.drag.vy = 0; return
+      }
+      if (s.panning) {
+        if (e.cancelable) e.preventDefault()
+        const pt = pointFrom(e)
+        s.panX = s.panStart.px + (pt.clientX - s.panStart.x); s.panY = s.panStart.py + (pt.clientY - s.panStart.y); return
+      }
+      if (e.type === 'touchmove') return
       const p = getPos(e)
       s.hover = hitTest(p) || null
       canvas.style.cursor = s.hover ? 'pointer' : 'grab'
     }
-    const onUp = () => { sim.current.drag = null; sim.current.panning = false }
+    const onUp = () => { sim.current.drag = null; sim.current.panning = false; sim.current.pinching = false }
     const onWheel = (e) => {
       e.preventDefault()
       const f = e.deltaY < 0 ? 1.1 : 0.9
@@ -341,11 +385,19 @@ export default function GrafoRede() {
     window.addEventListener('mousemove', onMove)
     window.addEventListener('mouseup', onUp)
     canvas.addEventListener('wheel', onWheel, { passive: false })
+    canvas.addEventListener('touchstart', onDown, { passive: true })
+    canvas.addEventListener('touchmove', onMove, { passive: false })
+    canvas.addEventListener('touchend', onUp, { passive: true })
+    canvas.addEventListener('touchcancel', onUp, { passive: true })
     return () => {
       canvas.removeEventListener('mousedown', onDown)
       window.removeEventListener('mousemove', onMove)
       window.removeEventListener('mouseup', onUp)
       canvas.removeEventListener('wheel', onWheel)
+      canvas.removeEventListener('touchstart', onDown)
+      canvas.removeEventListener('touchmove', onMove)
+      canvas.removeEventListener('touchend', onUp)
+      canvas.removeEventListener('touchcancel', onUp)
     }
   }, [])
 
