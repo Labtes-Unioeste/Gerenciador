@@ -97,7 +97,7 @@ export default function ProjetosColaborativos() {
         {error && <div className="crud-error">{error}</div>}
         {msg && <div className="crud-msg">{msg}</div>}
         <div className="crud-actions">
-          <button className="btn btn-primary" disabled={saving}>{saving ? 'Salvando…' : (editId ? 'Atualizar' : 'Cadastrar')}</button>
+          <button type="submit" className="btn btn-primary" disabled={saving}>{saving ? 'Salvando…' : (editId ? 'Atualizar' : 'Cadastrar')}</button>
           {editId && <button type="button" className="btn btn-ghost" onClick={reset}>Cancelar</button>}
         </div>
       </form>
