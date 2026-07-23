@@ -1,12 +1,24 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { ShieldCheck, LogOut } from 'lucide-react'
+import { ShieldCheck, LogOut, Layers, Network, CalendarClock } from 'lucide-react'
 import { supabase } from '../lib/supabase.js'
+import Especialidades from './Especialidades.jsx'
+import Conexoes from './Conexoes.jsx'
+import TimelineEventos from './TimelineEventos.jsx'
+
+const TABS = [
+  { key: 'especialidades', label: 'Especialidades', icon: Layers, comp: Especialidades },
+  { key: 'conexoes', label: 'Conexões', icon: Network, comp: Conexoes },
+  { key: 'timeline', label: 'Timeline', icon: CalendarClock, comp: TimelineEventos },
+]
 
 export default function AreaRestrita({ user, onLogout }) {
+  const [tab, setTab] = useState('especialidades')
   const handleLogout = async () => {
     await supabase.auth.signOut()
     onLogout?.()
   }
+  const Active = TABS.find((t) => t.key === tab)?.comp || Especialidades
 
   return (
     <motion.div
@@ -20,18 +32,29 @@ export default function AreaRestrita({ user, onLogout }) {
           <ShieldCheck size={13} strokeWidth={2.4} /> Área Restrita
         </span>
         <h2>Bem-vindo(a){user?.email ? `, ${user.email}` : ''}</h2>
-        <p>Você está autenticado. Este espaço é exclusivo para a equipe da Rede TecFert.</p>
+        <p>Painel interno da equipe TecFert. Cadastre especialidades, conexões e eventos das instituições da rede.</p>
         <button className="btn btn-ghost restrita-logout" onClick={handleLogout}>
           <LogOut size={16} strokeWidth={2} /> Sair
         </button>
       </div>
 
-      <div className="restrita-placeholder">
-        <p>
-          Conteúdo interno da equipe aparecerá aqui. Me diga o que você quer disponibilizar
-          nesta área (relatórios internos, documentos, painel de gestão, etc.) e eu monto a
-          seção certinha.
-        </p>
+      <div className="restrita-tabs">
+        {TABS.map((t) => {
+          const Icon = t.icon
+          return (
+            <button
+              key={t.key}
+              className={'restrita-tab' + (tab === t.key ? ' active' : '')}
+              onClick={() => setTab(t.key)}
+            >
+              <Icon size={16} strokeWidth={2} /> {t.label}
+            </button>
+          )
+        })}
+      </div>
+
+      <div className="restrita-body">
+        <Active />
       </div>
     </motion.div>
   )
