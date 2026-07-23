@@ -46,15 +46,17 @@ export default function AreaRestrita({ user, onLogout }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
     >
-      <div className="restrita-head">
-        <span className="hero-eyebrow">
-          <ShieldCheck size={13} strokeWidth={2.4} /> Área Restrita
-        </span>
-        <h2>Bem-vindo(a){user?.email ? `, ${user.email}` : ''}</h2>
-        <p>Painel interno da equipe TecFert. Cadastre especialidades, conexões e eventos das instituições da rede.</p>
-        <button className="btn btn-ghost restrita-logout" onClick={handleLogout}>
-          <LogOut size={16} strokeWidth={2} /> Sair
-        </button>
+      <div className="restrita-hero">
+        <div className="restrita-content">
+          <span className="hero-eyebrow">
+            <ShieldCheck size={14} strokeWidth={2.4} /> Área Restrita
+          </span>
+          <h2>Bem-vindo(a){user?.email ? `, ${user.email}` : ''}</h2>
+          <p>Painel interno da equipe TecFert. Cadastre especialidades, conexões e eventos das instituições da rede.</p>
+          <button className="btn btn-ghost restrita-logout" onClick={handleLogout}>
+            <LogOut size={16} strokeWidth={2} /> Sair
+          </button>
+        </div>
       </div>
 
       <div className="restrita-tabs">
