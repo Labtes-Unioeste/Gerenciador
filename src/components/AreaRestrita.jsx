@@ -5,11 +5,14 @@ import { supabase } from '../lib/supabase.js'
 import Especialidades from './Especialidades.jsx'
 import Conexoes from './Conexoes.jsx'
 import TimelineEventos from './TimelineEventos.jsx'
+import DashboardRede from './DashboardRede.jsx'
+import { LayoutDashboard } from 'lucide-react'
 
 const TABS = [
   { key: 'especialidades', label: 'Especialidades', icon: Layers, comp: Especialidades },
   { key: 'conexoes', label: 'Conexões', icon: Network, comp: Conexoes },
   { key: 'timeline', label: 'Timeline', icon: CalendarClock, comp: TimelineEventos },
+  { key: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, comp: DashboardRede },
 ]
 
 export default function AreaRestrita({ user, onLogout }) {
