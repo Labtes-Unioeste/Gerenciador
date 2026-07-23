@@ -18,6 +18,12 @@ import BuscaInteligente from './BuscaInteligente.jsx'
 import ProjetosColaborativos from './ProjetosColaborativos.jsx'
 import { Search, FolderKanban } from 'lucide-react'
 
+const PAPEL_POR_EMAIL = {
+  'admin@tecfert.com.br': 'Administrador',
+  'coordenador@tecfert.com.br': 'Coordenador do Projeto',
+  'pesquisador@tecfert.com.br': 'Pesquisador Top Manager',
+}
+
 const TABS = [
   { key: 'instituicoes', label: 'Instituições', icon: Building2, comp: Instituicoes },
   { key: 'especialidades', label: 'Especialidades', icon: Layers, comp: Especialidades },
@@ -38,6 +44,7 @@ export default function AreaRestrita({ user, onLogout }) {
     onLogout?.()
   }
   const Active = TABS.find((t) => t.key === tab)?.comp || Instituicoes
+  const papel = PAPEL_POR_EMAIL[user?.email] || user?.email || ''
 
   return (
     <motion.div
@@ -51,7 +58,7 @@ export default function AreaRestrita({ user, onLogout }) {
           <span className="hero-eyebrow">
             <ShieldCheck size={14} strokeWidth={2.4} /> Área Restrita
           </span>
-          <h2>Bem-vindo(a){user?.email ? `, ${user.email}` : ''}</h2>
+          <h2>Bem-vindo(a){papel ? `, ${papel}` : ''}</h2>
           <p>Painel interno da equipe TecFert. Cadastre especialidades, conexões e eventos das instituições da rede.</p>
           <button className="btn btn-ghost restrita-logout" onClick={handleLogout}>
             <LogOut size={16} strokeWidth={2} /> Sair
