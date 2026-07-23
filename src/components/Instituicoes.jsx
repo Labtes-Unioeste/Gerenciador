@@ -1,5 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
-import { supabase } from '../lib/supabase.js'
+import {
+  listInstituicoes, createInstituicao, updateInstituicao, deleteInstituicao,
+} from '../repositories/instituicoesRepository.js'
 import { STATUS_OPTS, MAT_BY_STATUS, TIPO_OPTS, PRIORIDADE_OPTS } from '../lib/crmOptions.js'
 
 const EMPTY = {
@@ -32,13 +34,14 @@ export default function Instituicoes() {
 
   const load = useCallback(async () => {
     setLoading(true)
-    const { data, error } = await supabase
-      .from('instituicoes')
-      .select('*')
-      .order('nome', { ascending: true })
-    if (error) setError(error.message)
-    else setRows(data || [])
-    setLoading(false)
+    try {
+      const data = await listInstituicoes()
+      setRows(data)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
   }, [])
 
   useEffect(() => { load() }, [load])
@@ -80,9 +83,13 @@ export default function Instituicoes() {
 
   const handleDelete = async (r) => {
     if (!confirm(`Remover "${r.nome}" e todos os registros ligados a ela (especialidades, conexões, timeline)?`)) return
-    const { error } = await supabase.from('instituicoes').delete().eq('id', r.id)
-    if (error) setError(error.message)
-    else { if (editId === r.id) reset(); load() }
+    try {
+      await deleteInstituicao(r.id)
+      if (editId === r.id) reset()
+      load()
+    } catch (err) {
+      setError(err.message)
+    }
   }
 
   const handleSubmit = async (e) => {
@@ -109,17 +116,17 @@ export default function Instituicoes() {
       pontuacao_maturidade: MAT_BY_STATUS[form.status_crm] || 5,
     }
 
-    let res
-    if (editId) {
-      res = await supabase.from('instituicoes').update(payload).eq('id', editId)
-    } else {
-      res = await supabase.from('instituicoes').insert(payload)
+    try {
+      if (editId) await updateInstituicao(editId, payload)
+      else await createInstituicao(payload)
+      setMsg(editId ? 'Instituição atualizada.' : 'Instituição cadastrada.')
+      reset()
+      load()
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setSaving(false)
     }
-    setSaving(false)
-    if (res.error) { setError(res.error.message); return }
-    setMsg(editId ? 'Instituição atualizada.' : 'Instituição cadastrada.')
-    reset()
-    load()
   }
 
   return (

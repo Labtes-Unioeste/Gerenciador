@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
-import { supabase } from '../lib/supabase.js'
+import { listInstituicoesResumo, createInstituicao } from '../repositories/instituicoesRepository.js'
 
 // Busca/selecao de instituicao (ligada as instituicoes ja cadastradas no Supabase).
 // Usado nas telas de cadastro (Especialidades, Conexoes, Timeline).
@@ -15,17 +15,9 @@ export default function InstitutionSelect({ value, onChange, placeholder = 'Busc
 
   useEffect(() => {
     let active = true
-    ;(async () => {
-      const { data, error } = await supabase
-        .from('instituicoes')
-        .select('id, nome, cidade, tipo')
-        .order('nome', { ascending: true })
-        .limit(400)
-      if (active) {
-        setItems(data || [])
-        setLoading(false)
-      }
-    })()
+    listInstituicoesResumo({ limit: 400 })
+      .then((data) => { if (active) { setItems(data); setLoading(false) } })
+      .catch(() => { if (active) setLoading(false) })
     return () => { active = false }
   }, [])
 
@@ -48,16 +40,16 @@ export default function InstitutionSelect({ value, onChange, placeholder = 'Busc
 
   const handleCreate = async () => {
     setCreating(true); setCreateError('')
-    const { data, error } = await supabase
-      .from('instituicoes')
-      .insert({ nome: termo, tipo: creatableTipo, status_crm: 'nao_iniciado', pontuacao_maturidade: 5 })
-      .select('id, nome, cidade, tipo')
-      .single()
-    setCreating(false)
-    if (error) { setCreateError(error.message); return }
-    setItems((prev) => [...prev, data].sort((a, b) => a.nome.localeCompare(b.nome)))
-    onChange(data.id)
-    setOpen(false); setQ('')
+    try {
+      const data = await createInstituicao({ nome: termo, tipo: creatableTipo, status_crm: 'nao_iniciado', pontuacao_maturidade: 5 })
+      setItems((prev) => [...prev, data].sort((a, b) => a.nome.localeCompare(b.nome)))
+      onChange(data.id)
+      setOpen(false); setQ('')
+    } catch (err) {
+      setCreateError(err.message)
+    } finally {
+      setCreating(false)
+    }
   }
 
   return (

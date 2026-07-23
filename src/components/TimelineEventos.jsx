@@ -1,5 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
-import { supabase } from '../lib/supabase.js'
+import {
+  listTimeline, createEventoTimeline, updateEventoTimeline, deleteEventoTimeline,
+} from '../repositories/timelineRepository.js'
 import InstitutionSelect from './InstitutionSelect.jsx'
 
 export default function TimelineEventos() {
@@ -15,12 +17,14 @@ export default function TimelineEventos() {
 
   const load = useCallback(async () => {
     setLoading(true)
-    const { data, error } = await supabase
-      .from('timeline_eventos')
-      .select('id, titulo, descricao, instituicoes(nome, cidade)')
-      .order('created_at', { ascending: false })
-    if (error) setError(error.message); else setRows(data || [])
-    setLoading(false)
+    try {
+      const data = await listTimeline()
+      setRows(data)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
   }, [])
 
   useEffect(() => { load() }, [load])
@@ -32,14 +36,17 @@ export default function TimelineEventos() {
     if (!instituicaoId) { setError('Selecione a instituição.'); return }
     if (!titulo.trim()) { setError('Informe o título do evento.'); return }
     setSaving(true)
-    const payload = { instituicao_id: instituicaoId, titulo: titulo.trim(), descricao: descricao.trim() || null }
-    let res
-    if (editId) res = await supabase.from('timeline_eventos').update(payload).eq('id', editId)
-    else res = await supabase.from('timeline_eventos').insert(payload)
-    setSaving(false)
-    if (res.error) { setError(res.error.message); return }
-    setMsg(editId ? 'Evento atualizado.' : 'Evento cadastrado.')
-    reset(); load()
+    try {
+      const payload = { instituicaoId, titulo: titulo.trim(), descricao: descricao.trim() }
+      if (editId) await updateEventoTimeline(editId, payload)
+      else await createEventoTimeline(payload)
+      setMsg(editId ? 'Evento atualizado.' : 'Evento cadastrado.')
+      reset(); load()
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setSaving(false)
+    }
   }
 
   const handleEdit = (r) => {
@@ -48,8 +55,12 @@ export default function TimelineEventos() {
   }
   const handleDelete = async (id) => {
     if (!confirm('Remover este evento da timeline?')) return
-    const { error } = await supabase.from('timeline_eventos').delete().eq('id', id)
-    if (error) setError(error.message); else load()
+    try {
+      await deleteEventoTimeline(id)
+      load()
+    } catch (err) {
+      setError(err.message)
+    }
   }
 
   return (

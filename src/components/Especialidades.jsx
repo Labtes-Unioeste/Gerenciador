@@ -1,5 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
-import { supabase } from '../lib/supabase.js'
+import {
+  listEspecialidades, createEspecialidade, updateEspecialidade, deleteEspecialidade,
+} from '../repositories/especialidadesRepository.js'
 import InstitutionSelect from './InstitutionSelect.jsx'
 
 export default function Especialidades() {
@@ -14,13 +16,14 @@ export default function Especialidades() {
 
   const load = useCallback(async () => {
     setLoading(true)
-    const { data, error } = await supabase
-      .from('especialidades')
-      .select('id, instituicao_id, nome, instituicoes(nome, cidade)')
-      .order('nome', { ascending: true })
-    if (error) setError(error.message)
-    else setRows(data || [])
-    setLoading(false)
+    try {
+      const data = await listEspecialidades()
+      setRows(data)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
   }, [])
 
   useEffect(() => { load() }, [load])
@@ -33,16 +36,16 @@ export default function Especialidades() {
     if (!instituicaoId) { setError('Selecione a instituição.'); return }
     if (!nome.trim()) { setError('Informe o nome da especialidade.'); return }
     setSaving(true)
-    let res
-    if (editId) {
-      res = await supabase.from('especialidades').update({ instituicao_id: instituicaoId, nome: nome.trim() }).eq('id', editId)
-    } else {
-      res = await supabase.from('especialidades').insert({ instituicao_id: instituicaoId, nome: nome.trim() })
+    try {
+      if (editId) await updateEspecialidade(editId, { instituicaoId, nome: nome.trim() })
+      else await createEspecialidade({ instituicaoId, nome: nome.trim() })
+      setMsg(editId ? 'Especialidade atualizada.' : 'Especialidade cadastrada.')
+      reset(); load()
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setSaving(false)
     }
-    setSaving(false)
-    if (res.error) { setError(res.error.message); return }
-    setMsg(editId ? 'Especialidade atualizada.' : 'Especialidade cadastrada.')
-    reset(); load()
   }
 
   const handleEdit = (r) => {
@@ -52,8 +55,12 @@ export default function Especialidades() {
 
   const handleDelete = async (id) => {
     if (!confirm('Remover esta especialidade?')) return
-    const { error } = await supabase.from('especialidades').delete().eq('id', id)
-    if (error) setError(error.message); else load()
+    try {
+      await deleteEspecialidade(id)
+      load()
+    } catch (err) {
+      setError(err.message)
+    }
   }
 
   return (

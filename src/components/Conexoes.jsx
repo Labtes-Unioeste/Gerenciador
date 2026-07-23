@@ -1,5 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
-import { supabase } from '../lib/supabase.js'
+import {
+  listConexoes, createConexao, updateConexao, deleteConexao,
+} from '../repositories/conexoesRepository.js'
 import InstitutionSelect from './InstitutionSelect.jsx'
 
 export default function Conexoes() {
@@ -16,12 +18,14 @@ export default function Conexoes() {
 
   const load = useCallback(async () => {
     setLoading(true)
-    const { data, error } = await supabase
-      .from('conexoes')
-      .select('id, tipo, observacoes, origem:instituicao_origem_id(nome), destino:instituicao_destino_id(nome)')
-      .order('created_at', { ascending: false })
-    if (error) setError(error.message); else setRows(data || [])
-    setLoading(false)
+    try {
+      const data = await listConexoes()
+      setRows(data)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
   }, [])
 
   useEffect(() => { load() }, [load])
@@ -33,14 +37,17 @@ export default function Conexoes() {
     if (!origemId || !destinoId) { setError('Selecione a instituição de origem e a de destino.'); return }
     if (origemId === destinoId) { setError('Origem e destino devem ser diferentes.'); return }
     setSaving(true)
-    const payload = { instituicao_origem_id: origemId, instituicao_destino_id: destinoId, tipo, observacoes: observacoes.trim() || null }
-    let res
-    if (editId) res = await supabase.from('conexoes').update(payload).eq('id', editId)
-    else res = await supabase.from('conexoes').insert(payload)
-    setSaving(false)
-    if (res.error) { setError(res.error.message); return }
-    setMsg(editId ? 'Conexão atualizada.' : 'Conexão cadastrada.')
-    reset(); load()
+    try {
+      const payload = { origemId, destinoId, tipo, observacoes: observacoes.trim() }
+      if (editId) await updateConexao(editId, payload)
+      else await createConexao(payload)
+      setMsg(editId ? 'Conexão atualizada.' : 'Conexão cadastrada.')
+      reset(); load()
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setSaving(false)
+    }
   }
 
   const handleEdit = (r) => {
@@ -50,8 +57,12 @@ export default function Conexoes() {
   }
   const handleDelete = async (id) => {
     if (!confirm('Remover esta conexão?')) return
-    const { error } = await supabase.from('conexoes').delete().eq('id', id)
-    if (error) setError(error.message); else load()
+    try {
+      await deleteConexao(id)
+      load()
+    } catch (err) {
+      setError(err.message)
+    }
   }
 
   return (
