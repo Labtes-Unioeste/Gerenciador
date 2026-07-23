@@ -32,10 +32,10 @@ export default function InstitutionSelect({ value, onChange, placeholder = 'Busc
 
   const filtered = useMemo(() => {
     const term = q.toLowerCase().trim()
-    if (!term) return items.slice(0, 12)
+    if (!term) return items.slice(0, 50)
     return items
       .filter((i) => (i.nome + ' ' + (i.cidade || '')).toLowerCase().includes(term))
-      .slice(0, 12)
+      .slice(0, 50)
   }, [items, q])
 
   return (
