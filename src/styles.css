@@ -1064,3 +1064,40 @@ footer .copy { margin-top: 28px; padding-top: 18px; border-top: 1px solid rgba(2
 .grafo-sel span { font-size: 13px; color: var(--muted); }
 .grafo-tip { font-size: 12px; color: var(--muted); margin: 0; }
 
+/* ===== Perfil da Instituicao ===== */
+.content-perfil { max-width: 1100px; margin: 0 auto; }
+.perfil { display: flex; flex-direction: column; gap: 18px; }
+.perfil-back { align-self: flex-start; }
+.perfil-head { display: flex; flex-direction: column; gap: 8px; }
+.perfil-head h2 { font-family: "Manrope", sans-serif; font-size: 32px; font-weight: 700; color: var(--verde-escuro); letter-spacing: -0.02em; line-height: 1.15; }
+.perfil-sub { color: var(--muted); font-size: 15px; }
+.perfil-link { color: var(--verde-medio); font-size: 14px; text-decoration: none; }
+.perfil-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.perfil-card { background: #fff; border: 1px solid var(--borda); border-radius: 22px; padding: 22px; box-shadow: var(--shadow-sm); }
+.perfil-card-wide { grid-column: 1 / -1; }
+.perfil-card h3 { font-family: "Manrope", sans-serif; font-size: 17px; font-weight: 700; color: var(--verde-escuro); margin-bottom: 12px; }
+.perfil-card p { color: var(--txt); font-size: 15px; line-height: 1.7; }
+.perfil-empty { color: var(--muted); font-size: 14px; }
+.perfil-mat { display: flex; align-items: center; gap: 10px; margin: 14px 0; font-size: 13px; color: var(--muted); }
+.perfil-mat .mat-bar { flex: 1; }
+.perfil-meta { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-direction: column; gap: 6px; font-size: 14px; color: var(--txt); }
+.perfil-meta b { color: var(--verde-escuro); }
+.perfil-edit { margin-top: 16px; }
+.perfil-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.perfil-tag { background: var(--verde-suave); color: var(--verde-escuro); border-radius: 20px; padding: 6px 13px; font-size: 13px; font-weight: 600; }
+.perfil-list, .perfil-timeline { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 9px; }
+.perfil-list li { font-size: 14px; color: var(--txt); }
+.perfil-timeline li { font-size: 14px; color: var(--txt); line-height: 1.5; padding-left: 14px; position: relative; }
+.perfil-timeline li::before { content: ''; position: absolute; left: 0; top: 7px; width: 7px; height: 7px; border-radius: 50%; background: var(--verde-medio); }
+.tl-date { font-weight: 700; color: var(--verde-escuro); margin-right: 6px; }
+
+.crm-detail-bar { margin-bottom: 12px; }
+.grafo-sel-btn { background: transparent; border: 0; color: var(--verde-medio); font-weight: 600; font-size: 13px; cursor: pointer; padding: 0; margin-bottom: 6px; }
+.grafo-sel-btn:hover { text-decoration: underline; }
+/* ===== Mapa Inteligente ===== */
+.map-sidepanel { position: absolute; top: 12px; right: 12px; width: 280px; background: #fff; border: 1px solid var(--borda); border-radius: 18px; padding: 18px; box-shadow: var(--shadow-lg); z-index: 500; }
+.map-sidepanel-x { position: absolute; top: 10px; right: 12px; background: transparent; border: 0; font-size: 22px; line-height: 1; color: var(--muted); cursor: pointer; }
+.map-sidepanel h3 { font-family: "Manrope", sans-serif; font-size: 18px; font-weight: 700; color: var(--verde-escuro); margin: 10px 0 4px; }
+.map-sidepanel-sub { color: var(--muted); font-size: 13px; margin-bottom: 12px; }
+.map-sidepanel .perfil-mat { margin: 10px 0; }
+.map-sidepanel-hint { font-size: 12px; color: var(--muted); line-height: 1.5; margin: 10px 0 0; }

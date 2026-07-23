@@ -186,6 +186,7 @@ export default function GrafoRede() {
 
       {sel && (
         <div className="grafo-sel">
+          <button className="grafo-sel-btn" onClick={() => window.__abrirPerfil && window.__abrirPerfil(sel.id)}>Ver perfil →</button>
           <b>{sel.nome}</b>
           <span>{[sel.tipo, sel.cidade].filter(Boolean).join(' · ')}</span>
           <span>Maturidade: {sel.pontuacao_maturidade || 5}</span>

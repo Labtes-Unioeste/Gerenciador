@@ -16,6 +16,7 @@ import Pillars from './components/Pillars.jsx'
 import Sobre from './components/Sobre.jsx'
 import Login from './components/Login.jsx'
 import AreaRestrita from './components/AreaRestrita.jsx'
+import PerfilInstituicao from './components/PerfilInstituicao.jsx'
 import { supabase } from './lib/supabase.js'
 import { DATA } from './data/contacts.js'
 import { useEstado } from './hooks/useEstado.js'
@@ -39,6 +40,7 @@ export default function App() {
   const [navOpen, setNavOpen] = useState(false)
   const [mapCat, setMapCat] = useState(null)
   const [session, setSession] = useState(null)
+  const [perfilId, setPerfilId] = useState(null)
   const [authChecked, setAuthChecked] = useState(false)
 
   useEffect(() => {
@@ -70,6 +72,8 @@ export default function App() {
     [filtered, mapCat]
   )
 
+  window.__abrirPerfil = (id) => { setPerfilId(id); setTab('perfil'); window.scrollTo({ top: 0, behavior: 'smooth' }) }
+  const abrirPerfil = (id) => { setPerfilId(id); setTab('perfil'); window.scrollTo({ top: 0, behavior: 'smooth' }) }
   const onSelect = (value) => {
     if (!value) return
     const internalTab = LABEL_TO_TAB[value] || value
@@ -92,6 +96,14 @@ export default function App() {
         <div className="ov-note">
           Configurações. O controle de "contatado" é salvo localmente neste navegador
           (localStorage) e não é enviado a nenhum servidor.
+        </div>
+      )
+    }
+    if (tab === 'perfil' && perfilId) {
+      return (
+        <div className="content content-perfil">
+          <PerfilInstituicao instituicaoId={perfilId} onBack={() => { setPerfilId(null); setTab('overview') }} onEditCrm={() => { setTab('restrita'); setPerfilId(null) }} />
+          <Footer />
         </div>
       )
     }

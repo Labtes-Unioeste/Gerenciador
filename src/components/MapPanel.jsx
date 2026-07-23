@@ -107,6 +107,16 @@ export default function MapPanel({ contacts }) {
           })}
           <FixSize />
         </MapContainer>
+      {painel && (
+        <div className="map-sidepanel">
+          <button className="map-sidepanel-x" onClick={() => setPainel(null)}>×</button>
+          <span className={'crm-badge st-' + (painel.status || 'nao_iniciado')}>{STATUS_LABEL[painel.status] || painel.status}</span>
+          <h3>{painel.nome}</h3>
+          <div className="map-sidepanel-sub">{[painel.cat, painel.cidade].filter(Boolean).join(' · ')}</div>
+          <div className="perfil-mat"><span>Maturidade</span><div className="mat-bar"><div className="mat-fill" style={{ width: (painel.mat || 5) + '%', background: (painel.mat||5)>=90?'#1F5F3A':(painel.mat||5)>=50?'#2E7D32':(painel.mat||5)>=15?'#B7791F':'#9aa6a0' }} /></div><b>{(painel.mat||5)}/100</b></div>
+          <p className="map-sidepanel-hint">Acesse a Área Restrita (cadeado) para ver o perfil completo, conexões e linha do tempo.</p>
+        </div>
+      )}
       </div>
     </div>
   )

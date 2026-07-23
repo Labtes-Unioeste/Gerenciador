@@ -114,6 +114,9 @@ export default function CrmRede() {
       <div className="crm-detail">
         {!sel && <div className="crud-empty">Selecione uma instituição à esquerda para editar o relacionamento.</div>}
         {sel && (
+        <div className="crm-detail-bar">
+          <button className="btn btn-ghost" onClick={() => window.__abrirPerfil && window.__abrirPerfil(sel.id)}>Ver perfil completo →</button>
+        </div>
           <form className="crud-form" onSubmit={save} style={{ position: 'static' }}>
             <h3>{sel.nome}</h3>
             <div className="crm-meta">{[sel.tipo, sel.cidade].filter(Boolean).join(' · ')}</div>
